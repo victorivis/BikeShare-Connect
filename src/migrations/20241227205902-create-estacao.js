@@ -13,12 +13,14 @@ export default {
       },
       nome: {
         type: Sequelize.STRING(100),
+        allowNull: false,
       },
       foto: {
         type: Sequelize.BLOB,
       },
       localizacao: {
         type: Sequelize.GEOMETRY,
+        allowNull: false,
       },
     });
   },
