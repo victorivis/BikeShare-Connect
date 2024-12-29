@@ -1,1 +1,19 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/HPmuE-3s)
+# Inicialização
+
+Primeiramente, deve ser criado um arquivo .env seguindo o padrão abaixo
+
+```
+POSTGRES_USER = postgres
+POSTGRES_PASSWORD = postgres
+POSTGRES_HOST = localhost
+POSTGRES_PORT = 5432
+POSTGRES_DB = bikeshare
+POSTGRES_DIALECT = postgres
+```
+
+Em seguida basta rodar os comandos para instalação das dependências e criação do banco de dados, respectivamente.
+
+```
+npm install
+npm run criarDB
+```
