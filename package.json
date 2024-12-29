@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "criarDB": "npx sequelize-cli db:create && npx sequelize-cli db:migrate",
-    "migrar": "npx sequelize-cli db:migrate"
+    "migrar": "npx sequelize-cli db:migrate",
+    "resetDB": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate"
   },
   "keywords": [
     "bicicletas",
