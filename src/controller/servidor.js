@@ -1,19 +1,32 @@
 import express from "express"
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
+import cors from 'cors';
 
 const server = new express();
 server.use(express.json());
+server.use(cors());
 
 const port = 3000;
 const ip = "localhost";
 
 function meuMiddleware(req, res, next){
     console.log("Ok, funciona");
-    next;
+    next();
 }
 
 server.get("/teste", meuMiddleware, (req, res, next) => {
-    res.status(200).json({message: "Ola"});
+    return res.status(200).json({message: "Ola"});
+});
+
+server.post("/teste", async (req, res, next) => {
+    try{
+        console.log(req.body);
+
+        return res.status(200).json({message: "Conexão deu certo"});
+    }
+    catch(erro){
+        res.status(301).json({error: "Could not create object"});
+    }
 });
 
 server.get("/estacao", async (req, res, next) => {
