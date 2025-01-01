@@ -32,6 +32,19 @@ server.post("/teste", async (req, res, next) => {
     }
 });
 
+//Recebe as estacoes sem crashar o PostMan
+server.get("/reduzido", async (req, res, next) => {
+    try{
+        const resposta = await getEstacao();
+
+        resposta.forEach((elemento) => {elemento.foto = ""})
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(500).json({error: "Could not contact server database"});
+    }
+});
+
 server.get("/estacao", async (req, res, next) => {
         try{
             const resposta = await getEstacao();
@@ -55,8 +68,6 @@ server.post('/estacao', formData.single('foto'), async (req, res, next) => {
             localizacao: geometria
         }
         await createEstacao(novaEstacao);
-
-        console.log(novaEstacao);
 
         return res.status(200).json({message: "Estacao created sucessfully"});
     }

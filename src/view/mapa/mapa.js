@@ -1,5 +1,4 @@
 //API Leaflet
-
 var map = L.map('map').setView([-6.88, -38.58], 13);
 const grupoMarcadores = L.layerGroup().addTo(map);
 
@@ -29,6 +28,30 @@ map.on('click', onMapClick);
 //Comunicacao com o banco de dados
 //Infelizmente CORS e um monte de outras politicas obrigam a fazer tudo num unico script
 
+const ehAdmin = true;
+
+async function deletarEstacao(id){
+    try{
+        const resposta = await fetch(`http://localhost:3000/estacao/${id}`, {
+            method: "DELETE",
+        });
+
+        if (!resposta.ok) {
+            const mensagem = `Erro: ${resposta.status} - ${resposta.statusText}`;
+            alert(`Falha ao deletar a estação. ${mensagem}`);
+            return;
+        }
+    }
+    catch(erro){
+        alert("Deu algum erro");
+    }
+}
+
+async function criadorBotaoDeletar(id) {
+    await deletarEstacao(id);
+    await receberMarcadores();
+}
+
 async function receberMarcadores(){
     try{
         grupoMarcadores.clearLayers();
@@ -49,13 +72,20 @@ async function receberMarcadores(){
             const imgURL = URL.createObjectURL(blob);
 
             //Informacoes no popUp da estacao
-            const imagem = objetoFoto.data.length == 0 ? "" :
+            const imagem = objetoFoto.data.length == 0 ? '' :
              `<img src="${imgURL}" alt="Imagem" style="width: 100px;" />`;
-            
+
+            const botaoDeletar = !ehAdmin ? '' : `
+                <button onclick = "criadorBotaoDeletar(${dados.message[i].id})">
+                    <img src="./assets/trash.png" alt="lixo" style="width: 16px;" />
+                </button>
+            `;
+
              const textoPopUp = 
             `<div>
                 <p>${dados.message[i].nome}</p>
                 ${imagem}
+                ${botaoDeletar}
             </div>`;
 
             temp.on('mouseover', evento => {
@@ -126,5 +156,26 @@ async function enviarERecriar(){
     await receberMarcadores();
 }
 
-const botao = document.getElementById("submit-estacao");
-botao.addEventListener('click', enviarERecriar);
+//Criar a parte do html de cadastrar uma nova estação
+if(ehAdmin){
+    const destino = document.getElementById("API-Leaflet");
+
+    const inputNome = document.createElement("input");
+    inputNome.type = "text";
+    inputNome.placeholder="nome";
+    inputNome.id="nome";
+    destino.appendChild(inputNome);
+
+
+    const inputFoto = document.createElement("input");
+    inputFoto.type = "file";
+    inputFoto.placeholder="foto";
+    inputFoto.id="foto";
+    destino.appendChild(inputFoto);
+
+    const botaoEstacao = document.createElement("button");
+    botaoEstacao.textContent = "Criar Estação";
+    botaoEstacao.id = "submit-estacao";
+    botaoEstacao.addEventListener('click', enviarERecriar);
+    destino.appendChild(botaoEstacao);
+}
