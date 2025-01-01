@@ -1,10 +1,13 @@
 import express from "express"
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
+import multer from 'multer';
 import cors from 'cors';
 
+const formData = multer();
 const server = new express();
 server.use(express.json());
 server.use(cors());
+server.use(express.urlencoded({ extended: true}))
 
 const port = 3000;
 const ip = "localhost";
@@ -41,29 +44,26 @@ server.get("/estacao", async (req, res, next) => {
 );
 
 //Localizacao deve ser do tipo: "'POINT(-43.2096 -22.9035)', 4326"
-server.post("/estacao", async (req, res, next) => {
+server.post('/estacao', formData.single('foto'), async (req, res, next) => {
     try{
-        console.log(req);
-        console.log(req.body);
-
-        const local = req.body.localizacao;
-        const geometria = await geomFromText(local);
+        const geometria = await geomFromText(req.body.localizacao);
+        const foto = req.file != null ? req.file.buffer : "";
 
         const novaEstacao = {
             nome: req.body.nome,
+            foto: foto,
             localizacao: geometria
-        };
+        }
+        await createEstacao(novaEstacao);
 
         console.log(novaEstacao);
 
-        const resposta = await createEstacao(novaEstacao);
         return res.status(200).json({message: "Estacao created sucessfully"});
     }
     catch(erro){
-        res.status(301).json({error: "Could not create object"});
+        res.status(400).json({error: "Could not create object"});
     }
-}
-);
+});
 
 server.delete("/estacao/:id", async (req, res, next) => {
     const { id } = req.params;
