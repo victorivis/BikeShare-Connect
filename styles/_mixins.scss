@@ -1,0 +1,18 @@
+// > Mixins
+@mixin flexCenter($direction) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: $direction;
+    height: 100vh;
+}
+
+@mixin dots($color, $left, $width) {
+    width: $width;
+    height: $width;
+    border-radius: 100%;
+    top: 4%;
+    left: $left;
+    position: absolute;
+    background-color: $color;
+}
