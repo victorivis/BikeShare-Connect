@@ -13,25 +13,7 @@ server.use(express.urlencoded({ extended: true}))
 const port = 3000;
 const ip = "localhost";
 
-function meuMiddleware(req, res, next){
-    console.log("Ok, funciona");
-    next();
-}
-
-server.get("/teste", meuMiddleware, (req, res, next) => {
-    return res.status(200).json({message: "Ola"});
-});
-
-server.post("/teste", async (req, res, next) => {
-    try{
-        console.log(req.body);
-
-        return res.status(200).json({message: "Conexão deu certo"});
-    }
-    catch(erro){
-        res.status(301).json({error: "Could not create object"});
-    }
-});
+    /* Rotas estacoes */
 
 //Recebe as estacoes sem crashar o PostMan
 server.get("/reduzido", async (req, res, next) => {
@@ -95,7 +77,7 @@ server.delete("/estacao/:id", async (req, res, next) => {
 
 
 
-//Rotas usuarios
+    /* Rotas usuarios */
 
 server.get("/users", async (req, res) => {
     try {
