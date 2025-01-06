@@ -105,7 +105,7 @@ server.get("/users/:id", async (req, res) => {
 });
 
 // Rota para criar um novo usuário
-server.post("/users", async (req, res) => {
+/*server.post("/users", async (req, res) => {
     console.log("Received body:", req.body); // Log dos dados enviados
     try {
         const newUser = await createUser(req.body);
@@ -114,7 +114,33 @@ server.post("/users", async (req, res) => {
         console.error("Error in POST /users:", error); // Log detalhado do erro
         res.status(400).json({ error: "Failed to create user" });
     }
+});*/
+server.post("/users", formData.single("fotoPerfil"), async (req, res) => {
+    console.log("Received body:", req.body); // Log dos dados enviados
+    try {
+        // Extrair a foto do buffer, se fornecida
+        const fotoPerfil = req.file ? req.file.buffer : null;
+
+        // Criar o novo usuário com os dados recebidos
+        const newUser = await createUser({
+            tipo: req.body.tipo,
+            cpf_cnpj: req.body.cpf_cnpj,
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            senha: req.body.senha, // Recomenda-se usar hashing para a senha!
+            endereco: req.body.endereco,
+            email: req.body.email,
+            fotoPerfil, // Adicionando a foto de perfil
+        });
+
+        // Responder com o novo usuário criado
+        res.status(201).json(newUser);
+    } catch (error) {
+        console.error("Error in POST /users:", error); // Log detalhado do erro
+        res.status(400).json({ error: "Failed to create user" });
+    }
 });
+
 
 
 // Rota para atualizar um usuário
