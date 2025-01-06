@@ -1,10 +1,17 @@
 // > Mixins
+
+@import './variables';
+
 @mixin flexCenter($direction) {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: $direction;
-    height: 100vh;
+}
+
+@mixin normalText($color) {
+    font-family: $poppins;
+    color: $color;
 }
 
 @mixin dots($color, $left, $width) {
