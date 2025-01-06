@@ -48,10 +48,13 @@ server.post('/estacao', formData.single('foto'), async (req, res, next) => {
         const geometria = await geomFromText(req.body.localizacao);
         const foto = req.file != null ? req.file.buffer : "";
 
+        console.log(req.body);
+
         const novaEstacao = {
             nome: req.body.nome,
             foto: foto,
-            localizacao: geometria
+            localizacao: geometria,
+            descricao: req.body.descricao
         }
         await createEstacao(novaEstacao);
 

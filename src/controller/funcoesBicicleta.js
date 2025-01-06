@@ -92,4 +92,22 @@ async function devolverBicicleta(ID_Usuario, ID_Bicicleta, ID_Estacao, comentari
     }
 }
 
+async function BicicletasEstacao(ID_Estacao) {
+    return await Bicicleta.findAll({where:{ID_EstacaoAtual: ID_Estacao}});
+}
+
+async function historicoEstacao(ID_Estacao) {
+    try{
+        //const bicicleta = await filtrarBicicleta(ID_Bicicleta);
+        const r = RetirarBicicleta.findAll({where: {ID_Estacao: ID_Estacao}});
+        const d = DevolverBicicleta.findAll({where: {ID_Estacao: ID_Estacao}});
+
+        console.log(r);
+        console.log(d);
+    }
+    catch(error){
+        throw new Error("Can't devolver bicicleta");
+    }
+}
+
 export { getBicicleta, createBicicleta, filtrarBicicleta, devolverBicicleta, retirarBicicleta };

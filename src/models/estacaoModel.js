@@ -18,6 +18,10 @@ const Estacao = sequelize.define(
         localizacao: {
           type: DataTypes.GEOMETRY,
         },
+        descricao: {
+          type: DataTypes.STRING(500),
+          allowNull: true,
+        }
     },
     {
         tableName: 'estacao',
