@@ -42,6 +42,10 @@ body {
             @include dots($activeDot, 7%, 12px);
         }
 
+        #ping1 {
+            @include dots($inactiveDot, 7%, 9px);
+        }
+
         #ping2 {
             @include dots($inactiveDot, 12%, 9px);
         }
