@@ -1,7 +1,7 @@
 import express from "express"
 
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
-import { getAllUsers, getUserById, createUser, updateUser, deleteUser } from "./userController.js";
+import { getAllUsers, getUserById, getUserByCpfCnpj, createUser, updateUser, deleteUser } from "./userController.js";
 import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta } from "./funcoesBicicleta.js";
 
 import multer from 'multer';
@@ -103,6 +103,51 @@ server.get("/users/:id", async (req, res) => {
         res.status(500).json({ error: "Failed to retrieve user" });
     }
 });
+
+//Rota para buscar usuario por cpf ou cnpj
+server.get("/users/cpfCnpj/:cpfCnpj", async (req, res) => {
+    const { cpfCnpj } = req.params;
+
+    try {
+        const user = await getUserByCpfCnpj(cpfCnpj);
+
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ error: "Usuário não encontrado" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao buscar usuário" });
+    }
+});
+
+//EndPoint Login
+server.post("/login", async (req, res) => {
+    const { cpf_cnpj, senha } = req.body; // Captura cpf_cnpj e senha do corpo da requisição
+    console.log("acessou metodo post /login");
+    try {
+        const user = await getUserByCpfCnpj(cpf_cnpj);
+
+        if (!user) {
+            // Usuário não encontrado
+            return res.status(404).json({ error: "Usuário não encontrado" });
+            console.log("usuario n econtrado");
+        }
+
+        if (user.senha !== senha) {
+            // Senha incorreta
+            return res.status(401).json({ error: "Senha incorreta" });
+        }
+
+        // Login bem-sucedido
+        res.status(200).json({ message: "Login bem-sucedido", user });
+        console.log("sucesso no login");
+    } catch (error) {
+        console.error("Erro no login:", error);
+        res.status(500).json({ error: "Erro ao processar login" });
+    }
+});
+
 
 // Rota para criar um novo usuário
 /*server.post("/users", async (req, res) => {
