@@ -1,6 +1,9 @@
 import express from "express"
+
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
-import {getAllUsers, getUserById, createUser, updateUser, deleteUser} from "./userController.js";
+import { getAllUsers, getUserById, createUser, updateUser, deleteUser } from "./userController.js";
+import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta } from "./funcoesBicicleta.js";
+
 import multer from 'multer';
 import cors from 'cors';
 
@@ -138,6 +141,75 @@ server.delete("/users/:id", async (req, res) => {
     }
 });
 
+    /* Rotas estacao */
+
+server.get("/bicicleta", async (req, res, next) => {
+    try{
+        const resposta = await getBicicleta();
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(500).json({error: "Could not contact server database"});
+    }
+});
+
+server.post('/bicicleta', async (req, res, next) => {
+    try{
+        await createBicicleta(req.body);
+
+        return res.status(200).json({message: "Estacao created sucessfully"});
+    }
+    catch(erro){
+        res.status(400).json({error: "Could not create object"});
+    }
+});
+
+server.get("/bicicleta/:id", async (req, res, next) => {
+    const { id } = req.params;
+    try{
+        const resposta = await filtrarBicicleta(id);
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(400).json({error: "Could not find desired bicicleta"});
+    }
+});
+
+server.post("/retirarBicicleta", async (req, res, next) => {
+    try{
+        const { ID_Usuario, ID_Bicicleta } = req.body;
+        console.log(ID_Usuario, ID_Bicicleta)
+        const resposta = await retirarBicicleta(ID_Usuario, ID_Bicicleta);
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(400).json({error: "Can't retirar bicicleta"});
+    }
+});
+
+server.post("/retirarBicicleta", async (req, res, next) => {
+    try{
+        const { ID_Usuario, ID_Bicicleta } = req.body;
+        console.log(ID_Usuario, ID_Bicicleta)
+        const resposta = await retirarBicicleta(ID_Usuario, ID_Bicicleta);
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(400).json({error: "Can't retirar bicicleta"});
+    }
+});
+
+server.post("/devolverBicicleta", async (req, res, next) => {
+    try{
+        const { ID_Usuario, ID_Bicicleta, ID_Estacao, comentarios } = req.body;
+        console.log(ID_Usuario, ID_Bicicleta)
+        const resposta = await devolverBicicleta(ID_Usuario, ID_Bicicleta, ID_Estacao, comentarios);
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(400).json({error: "Can't retirar bicicleta"});
+    }
+});
 
 console.log(`Listening on port: ${port}`);
 server.listen(port, ip);

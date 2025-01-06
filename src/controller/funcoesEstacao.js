@@ -33,4 +33,4 @@ async function geomFromText(texto){
     return resposta[0].local;
 }
 
-export { getEstacao, createEstacao, geomFromText, deleteEstacao};
+export { getEstacao, createEstacao, geomFromText, deleteEstacao };
