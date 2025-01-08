@@ -1,6 +1,10 @@
 import express from "express"
+import bcrypt from "bcrypt";
+
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
-import {getAllUsers, getUserById, createUser, updateUser, deleteUser} from "./userController.js";
+import { getAllUsers, getUserById, getUserByCpfCnpj, createUser, updateUser, deleteUser } from "./userController.js";
+import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta } from "./funcoesBicicleta.js";
+
 import multer from 'multer';
 import cors from 'cors';
 
@@ -13,25 +17,7 @@ server.use(express.urlencoded({ extended: true}))
 const port = 3000;
 const ip = "localhost";
 
-function meuMiddleware(req, res, next){
-    console.log("Ok, funciona");
-    next();
-}
-
-server.get("/teste", meuMiddleware, (req, res, next) => {
-    return res.status(200).json({message: "Ola"});
-});
-
-server.post("/teste", async (req, res, next) => {
-    try{
-        console.log(req.body);
-
-        return res.status(200).json({message: "Conexão deu certo"});
-    }
-    catch(erro){
-        res.status(301).json({error: "Could not create object"});
-    }
-});
+    /* Rotas estacoes */
 
 //Recebe as estacoes sem crashar o PostMan
 server.get("/reduzido", async (req, res, next) => {
@@ -63,10 +49,13 @@ server.post('/estacao', formData.single('foto'), async (req, res, next) => {
         const geometria = await geomFromText(req.body.localizacao);
         const foto = req.file != null ? req.file.buffer : "";
 
+        console.log(req.body);
+
         const novaEstacao = {
             nome: req.body.nome,
             foto: foto,
-            localizacao: geometria
+            localizacao: geometria,
+            descricao: req.body.descricao
         }
         await createEstacao(novaEstacao);
 
@@ -95,7 +84,7 @@ server.delete("/estacao/:id", async (req, res, next) => {
 
 
 
-//Rotas usuarios
+    /* Rotas usuarios */
 
 server.get("/users", async (req, res) => {
     try {
@@ -119,8 +108,56 @@ server.get("/users/:id", async (req, res) => {
     }
 });
 
+//Rota para buscar usuario por cpf ou cnpj
+server.get("/users/cpfCnpj/:cpfCnpj", async (req, res) => {
+    const { cpfCnpj } = req.params;
+
+    try {
+        const user = await getUserByCpfCnpj(cpfCnpj);
+
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ error: "Usuário não encontrado" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao buscar usuário" });
+    }
+});
+
+//EndPoint Login
+server.post("/login", async (req, res) => {
+    const { cpf_cnpj, senha } = req.body;
+    console.log("acessou metodo post /login");
+    try {
+        const user = await getUserByCpfCnpj(cpf_cnpj);
+
+        if (!user) {
+            // Usuário não encontrado
+            return res.status(404).json({ error: "Usuário não encontrado" });
+        }
+
+        // Comparar a senha fornecida com o hash salvo no banco
+        const isPasswordValid = await bcrypt.compare(senha, user.senha);
+
+        if (!isPasswordValid) {
+            // Senha incorreta
+            return res.status(401).json({ error: "Senha incorreta" });
+        }
+
+        // Login bem-sucedido
+        res.status(200).json({ message: "Login bem-sucedido", user });
+        console.log("sucesso no login");
+    } catch (error) {
+        console.error("Erro no login:", error);
+        res.status(500).json({ error: "Erro ao processar login" });
+    }
+});
+
+
+
 // Rota para criar um novo usuário
-server.post("/users", async (req, res) => {
+/*server.post("/users", async (req, res) => {
     console.log("Received body:", req.body); // Log dos dados enviados
     try {
         const newUser = await createUser(req.body);
@@ -129,7 +166,38 @@ server.post("/users", async (req, res) => {
         console.error("Error in POST /users:", error); // Log detalhado do erro
         res.status(400).json({ error: "Failed to create user" });
     }
+});*/
+
+server.post("/users", formData.single("fotoPerfil"), async (req, res) => {
+    console.log("Received body:", req.body);
+    try {
+        // Extrair a foto do buffer, se fornecida
+        const fotoPerfil = req.file ? req.file.buffer : null;
+
+        // Hash da senha antes de salvar no banco
+        const saltRounds = 10; // Número de rounds
+        const hashedPassword = await bcrypt.hash(req.body.senha, saltRounds);
+
+        // Criar o novo usuário com os dados recebidos
+        const newUser = await createUser({
+            tipo: req.body.tipo,
+            cpf_cnpj: req.body.cpf_cnpj,
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            senha: hashedPassword, // Salva a senha como hash
+            endereco: req.body.endereco,
+            email: req.body.email,
+            fotoPerfil,
+        });
+
+        res.status(201).json(newUser);
+    } catch (error) {
+        console.error("Error in POST /users:", error);
+        res.status(400).json({ error: "Failed to create user" });
+    }
 });
+
+
 
 
 // Rota para atualizar um usuário
@@ -156,6 +224,75 @@ server.delete("/users/:id", async (req, res) => {
     }
 });
 
+    /* Rotas estacao */
+
+server.get("/bicicleta", async (req, res, next) => {
+    try{
+        const resposta = await getBicicleta();
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(500).json({error: "Could not contact server database"});
+    }
+});
+
+server.post('/bicicleta', async (req, res, next) => {
+    try{
+        await createBicicleta(req.body);
+
+        return res.status(200).json({message: "Estacao created sucessfully"});
+    }
+    catch(erro){
+        res.status(400).json({error: "Could not create object"});
+    }
+});
+
+server.get("/bicicleta/:id", async (req, res, next) => {
+    const { id } = req.params;
+    try{
+        const resposta = await filtrarBicicleta(id);
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(400).json({error: "Could not find desired bicicleta"});
+    }
+});
+
+server.post("/retirarBicicleta", async (req, res, next) => {
+    try{
+        const { ID_Usuario, ID_Bicicleta } = req.body;
+        console.log(ID_Usuario, ID_Bicicleta)
+        const resposta = await retirarBicicleta(ID_Usuario, ID_Bicicleta);
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(400).json({error: "Can't retirar bicicleta"});
+    }
+});
+
+server.post("/retirarBicicleta", async (req, res, next) => {
+    try{
+        const { ID_Usuario, ID_Bicicleta } = req.body;
+        console.log(ID_Usuario, ID_Bicicleta)
+        const resposta = await retirarBicicleta(ID_Usuario, ID_Bicicleta);
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(400).json({error: "Can't retirar bicicleta"});
+    }
+});
+
+server.post("/devolverBicicleta", async (req, res, next) => {
+    try{
+        const { ID_Usuario, ID_Bicicleta, ID_Estacao, comentarios } = req.body;
+        console.log(ID_Usuario, ID_Bicicleta)
+        const resposta = await devolverBicicleta(ID_Usuario, ID_Bicicleta, ID_Estacao, comentarios);
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(400).json({error: "Can't retirar bicicleta"});
+    }
+});
 
 console.log(`Listening on port: ${port}`);
 server.listen(port, ip);

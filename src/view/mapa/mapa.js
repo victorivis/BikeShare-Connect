@@ -107,6 +107,11 @@ async function enviarFormulario() {
     const inputNome = document.getElementById("nome");
     const nome = inputNome.value;
     const inputFile = document.getElementById("foto");
+    const inputDescricao = document.getElementById("descricao");
+    const descricao = inputDescricao.value;
+
+    console.log("descricao");
+    console.log(descricao);
     
     console.log(inputFile.files.length);
     if(nome==""){
@@ -130,6 +135,10 @@ async function enviarFormulario() {
     formData.append('foto', foto);
     formData.append('nome', nome);
     formData.append('localizacao', posMarcador);
+    formData.append('descricao', descricao);
+
+    console.log("form");
+    console.log(formData.getAll("descricao"));
  
     await fetch('http://localhost:3000/estacao', {
             method: 'POST',
@@ -149,6 +158,7 @@ async function enviarFormulario() {
     //Limpar os campos
     inputNome.value = '';
     inputFile.value = '';
+    inputDescricao.value = '';
 }
 
 async function enviarERecriar(){
@@ -166,6 +176,11 @@ if(ehAdmin){
     inputNome.id="nome";
     destino.appendChild(inputNome);
 
+    const inputDescricao = document.createElement("input");
+    inputDescricao.type = "text";
+    inputDescricao.placeholder="descricao";
+    inputDescricao.id="descricao";
+    destino.appendChild(inputDescricao);
 
     const inputFoto = document.createElement("input");
     inputFoto.type = "file";

@@ -1,0 +1,163 @@
+// Imports
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@font-face {
+    font-family: 'More Sugar';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./more-sugar.regular.ttf') format('truetype');
+}
+@import './variables';
+@import './mixins';
+
+// All
+* {
+    font-family: $poppins;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: color 0.5s ease-in-out;
+    scroll-behavior: smooth;
+    isolation: isolate;
+}
+
+// Tags
+body {
+    min-height: 100vh;
+    background-color: $gray;
+    overflow-x: hidden;
+}
+
+// Sigin (in cellphone)
+#cellphone {
+    height: 100vh;
+
+    #signin-header {
+        $headerHeight: 27%;
+        height: $headerHeight;
+        color: $signinTitle;
+
+        #active {
+            @include dots($activeDot, 7%, 12px);
+        }
+
+        #ping1 {
+            @include dots($inactiveDot, 7%, 9px);
+        }
+
+        #ping2 {
+            @include dots($inactiveDot, 12%, 9px);
+        }
+
+        #ping3 {
+            @include dots($inactiveDot, 17%, 9px);
+        }
+
+        #signin-title {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            top: 0px;
+            height:  calc($headerHeight / 1.7);
+            position: absolute;
+            text-align: center;
+            font-family: "More Sugar", Helvetica, sans-serif;
+            font-size: 3.3em;
+            font-weight: 100;
+        }
+
+        #cyclistImage {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: calc($headerHeight * 0.9);
+        }
+
+        #coneImage {
+            position: absolute;
+            top: calc($headerHeight * 0.65);
+            height: calc($headerHeight * 0.35);
+            left: 10%;
+        }
+    }
+
+    #signin-container {
+        $signinContainerHeight: 73%;
+        @include flexCenter(column);
+        justify-content: flex-start;
+        border-radius: 30px 30px 0px 0px;
+        background-color: $darkBrown;
+        height: $signinContainerHeight;
+
+        #signin-subtitle {
+            @include normalText($white);
+            @include flexCenter(column);
+            height: calc($signinContainerHeight * 0.18);
+            font-size: 2.3em;
+        }
+
+        $inputWidth: 70%;
+        $inputsContainerHeight: calc($signinContainerHeight * 0.62);
+        #inputs-container {
+            @include flexCenter(column);
+            justify-content: flex-start;
+            gap: 10px;
+            height: $inputsContainerHeight;
+            width: 100%;
+
+            .input-name {
+                @include normalText($white);
+                padding-left: 15px;
+                width: $inputWidth;
+                text-align: left;
+            }
+    
+            .signin-input {
+                @include normalText($darkBrown);
+                @include flexCenter(column);
+                padding-left: 5%;
+                height: calc($inputsContainerHeight * 0.44);
+                width: $inputWidth;
+                border-radius: 50px; 
+                border: 0px;
+                background-color: $lightBrown;
+            }
+    
+            .signin-input::placeholder {
+                @include normalText($darkBrown);
+            }
+        }
+
+        #next-button {
+            @include normalText($white);
+            width: 30%;
+            border-radius: 30px;
+            height: calc($inputsContainerHeight * 0.15);
+            border-color: $white;
+            border: 5px;
+            border-style: solid;
+            background-color: $translucid;
+            margin-top: calc($inputsContainerHeight * 0.13);
+            margin-bottom: calc($inputsContainerHeight * 0.13);
+        }
+
+        #signin-footer {
+            @include normalText($white);
+        }
+
+        #whiteBike {
+            position: absolute;
+            height: calc($signinContainerHeight * 0.13);
+            top: calc($signinContainerHeight * 0.95);
+            right: 5%;
+        }
+
+        .soft-link {
+            @include normalText($white);
+            text-decoration: none;
+        }
+    }
+}

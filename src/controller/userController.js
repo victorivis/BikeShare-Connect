@@ -17,6 +17,22 @@ async function getUserById(id) {
     return await User.findByPk(id); // Busca um usuário pelo ID
 }
 
+async function getUserByCpfCnpj(cpfCnpj) {
+    try {
+        // Busca o usuário com base no campo 'cpf_cnpj'
+        const user = await User.findOne({
+            where: {
+                cpf_cnpj: cpfCnpj, // Critério de busca
+            },
+        });
+
+        return user; // Retorna o usuário encontrado ou null se não houver correspondência
+    } catch (error) {
+        console.error("Erro ao buscar usuário pelo CPF/CNPJ:", error);
+        throw new Error("Erro ao buscar usuário. Tente novamente mais tarde.");
+    }
+}
+
 async function createUser(data) {
     try {
         console.log("Data received for creation:", data); // Log para verificar entrada
@@ -56,7 +72,7 @@ async function deleteUser(id) {
     return true;
 }
 
-export { getAllUsers, getUserById, createUser, updateUser, deleteUser };
+export { getAllUsers, getUserById, getUserByCpfCnpj, createUser, updateUser, deleteUser };
 
 
 /*
