@@ -77,7 +77,7 @@ async function receberMarcadores(){
 
             const botaoDeletar = !ehAdmin ? '' : `
                 <button onclick = "criadorBotaoDeletar(${dados.message[i].id})">
-                    <img src="./assets/trash.png" alt="lixo" style="width: 16px;" />
+                    <img src="../assets/trash.png" alt="lixo" style="width: 16px;" />
                 </button>
             `;
 
@@ -168,29 +168,35 @@ async function enviarERecriar(){
 
 //Criar a parte do html de cadastrar uma nova estação
 if(ehAdmin){
+
     const destino = document.getElementById("API-Leaflet");
+
+    const containerCadastro = document.createElement("div")
+    containerCadastro.className = "cadastro-container";
 
     const inputNome = document.createElement("input");
     inputNome.type = "text";
     inputNome.placeholder="nome";
     inputNome.id="nome";
-    destino.appendChild(inputNome);
+    containerCadastro.appendChild(inputNome);
 
     const inputDescricao = document.createElement("input");
     inputDescricao.type = "text";
     inputDescricao.placeholder="descricao";
     inputDescricao.id="descricao";
-    destino.appendChild(inputDescricao);
+    containerCadastro.appendChild(inputDescricao);
 
     const inputFoto = document.createElement("input");
     inputFoto.type = "file";
     inputFoto.placeholder="foto";
     inputFoto.id="foto";
-    destino.appendChild(inputFoto);
+    containerCadastro.appendChild(inputFoto);
 
     const botaoEstacao = document.createElement("button");
     botaoEstacao.textContent = "Criar Estação";
     botaoEstacao.id = "submit-estacao";
     botaoEstacao.addEventListener('click', enviarERecriar);
-    destino.appendChild(botaoEstacao);
+    containerCadastro.appendChild(botaoEstacao);
+
+    destino.appendChild(containerCadastro);
 }

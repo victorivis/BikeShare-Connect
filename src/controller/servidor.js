@@ -236,11 +236,17 @@ server.get("/bicicleta", async (req, res, next) => {
     }
 });
 
-server.post('/bicicleta', async (req, res, next) => {
+server.post('/bicicleta', formData.single("foto"), async (req, res, next) => {
     try{
-        await createBicicleta(req.body);
+        const foto = req.file != null ? req.file.buffer : "";
 
-        return res.status(200).json({message: "Estacao created sucessfully"});
+        const novaBicicleta = req.body;
+        novaBicicleta.foto = foto;
+        novaBicicleta.disponivel = (!novaBicicleta.ID_EstacaoAtual ? false : true);
+
+        await createBicicleta(novaBicicleta);        
+
+        return res.status(200).json({message: "Bicicleta created sucessfully"});
     }
     catch(erro){
         res.status(400).json({error: "Could not create object"});
