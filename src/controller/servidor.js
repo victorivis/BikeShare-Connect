@@ -1,9 +1,11 @@
 import express from "express"
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
 import { getAllUsers, getUserById, getUserByCpfCnpj, createUser, updateUser, deleteUser } from "./userController.js";
 import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta, deleteBicicleta } from "./funcoesBicicleta.js";
+import { autenticar, verificarComum, verificarAdministradorBicicletas, verificarAdministradorGeral } from './autenticar.js';
 
 import multer from 'multer';
 import cors from 'cors';
@@ -97,7 +99,7 @@ server.get("/users", async (req, res) => {
 
 
 // Rota para obter um usuário pelo ID
-server.get("/users/:id", async (req, res) => {
+server.get("/users/:id", autenticar, verificarComum, async (req, res) => {
     const { id } = req.params;
     try {
         const user = await getUserById(id);
@@ -145,15 +147,20 @@ server.post("/login", async (req, res) => {
             return res.status(401).json({ error: "Senha incorreta" });
         }
 
+        const token = jwt.sign(
+            { id: user.id, cpf_cnpj: user.cpf_cnpj, tipo: user.tipo }, // Inclui o tipo do usuário no payload
+            "seuSegredoSuperSecreto",
+            { expiresIn: "1h" }
+        ); //gerando token com validade de 1 hora;
+
         // Login bem-sucedido
-        res.status(200).json({ message: "Login bem-sucedido", user });
+        res.status(200).json({ message: "Login bem-sucedido", user , token});
         console.log("sucesso no login");
     } catch (error) {
         console.error("Erro no login:", error);
         res.status(500).json({ error: "Erro ao processar login" });
     }
 });
-
 
 
 // Rota para criar um novo usuário

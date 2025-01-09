@@ -25,6 +25,8 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
             document.getElementById("loginMessage").textContent = "Login realizado com sucesso!";
             console.log("Usuário logado:", result.user); // Log do usuário logado
 
+            console.log("token", result.token);
+            localStorage.setItem("token", result.token); // Salva o token no localStorage
             // Redireciona o usuário para lobby.html
             window.location.href = "lobby.html";
         } else {
