@@ -1,3 +1,20 @@
+async function deletarBicicleta(id){
+    try{
+        const resposta = await fetch(`http://localhost:3000/bicicleta/${id}`, {
+            method: "DELETE",
+        });
+
+        if (!resposta.ok) {
+            const mensagem = `Erro: ${resposta.status} - ${resposta.statusText}`;
+            alert(`Falha ao deletar a estação. ${mensagem}`);
+            return;
+        }
+    }
+    catch(erro){
+        alert("Deu algum erro");
+    }
+}
+
 async function receberUsuarios() {
     try{
         const resposta = await fetch("http://localhost:3000/users", {

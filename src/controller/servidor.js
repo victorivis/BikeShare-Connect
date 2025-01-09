@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
 import { getAllUsers, getUserById, getUserByCpfCnpj, createUser, updateUser, deleteUser } from "./userController.js";
-import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta } from "./funcoesBicicleta.js";
+import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta, deleteBicicleta } from "./funcoesBicicleta.js";
 
 import multer from 'multer';
 import cors from 'cors';
@@ -264,6 +264,21 @@ server.get("/bicicleta/:id", async (req, res, next) => {
     }
 });
 
+server.delete("/bicicleta/:id", async (req, res, next) => {
+    const { id } = req.params;
+    try{
+        const resultado = await deleteBicicleta(id);
+        if(resultado > 0){
+            res.status(200).json({message: "Bicicleta deleted sucessfully"});
+        }
+        else{
+            res.status(400).json({error: "informed id is not valid"});
+        }
+    }
+    catch(erro){
+        res.status(500).json({error: "Some error on deleting has occurred"});
+    }
+});
 server.post("/retirarBicicleta", async (req, res, next) => {
     try{
         const { ID_Usuario, ID_Bicicleta } = req.body;
