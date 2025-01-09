@@ -15,6 +15,13 @@ async function deletarBicicleta(id){
     }
 }
 
+function criadorDeletar(id) {
+    return async ()=>{
+        await deletarBicicleta(id);
+        await receberBicicletas();
+    }
+}
+
 async function receberUsuarios() {
     try{
         const resposta = await fetch("http://localhost:3000/users", {
@@ -110,6 +117,15 @@ async function receberBicicletas() {
             descricao.textContent = textoDescricao;
             descricao.style = "white-space: pre-line;";
             conteudo.appendChild(descricao);
+
+            const botao = document.createElement("button");
+            botao.style = "position: relative; top: -112px; left: 160px;";
+            const imagemBotao = document.createElement("img");
+            imagemBotao.src = "../assets/trash.png";
+            imagemBotao.style = "width: 15px;";
+            botao.appendChild(imagemBotao);
+            botao.onclick=criadorDeletar(dados.message[i].id);
+            conteudo.appendChild(botao);
 
             card.appendChild(conteudo);
 
