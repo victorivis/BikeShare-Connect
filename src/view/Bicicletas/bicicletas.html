@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bicicletas</title>
+    <link rel="stylesheet" href="../styles/cartoes.css">
+    <link rel="stylesheet" href="../styles/cadastro.css">
+    <script src="bicicletas.js" defer></script>
+
+    <script src="../scripts/linksPaginas.js" defer></script>
+</head>
+<body>
+    <!-- Formulário de Cadastro -->
+    <div class="cadastro-container">
+        <input id="foto" type="file" placeholder="foto">
+
+        <div>
+            <label for="UsuarioDono">Usuário dono:</label>
+            <select list="UsuarioDono" id="UsuarioDono" name="UsuarioDono">
+                <option value="">null</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="ID_Estacao">Estação atual da bicicleta:</label>
+            <select list="idEstacoes" id="ID_Estacao" name="ID_Estacao">
+                <option value="" title="teste">null</option>
+            </select>
+        </div>
+
+        <button id="cadastrar">Cadastrar</button>
+    </div>
+
+    <!-- Listar -->
+    <div id="listaBicicletas">
+        <!-- Pode comentar a div card. Ela serve só de exemplo -->
+        <div class="card">
+            <img src="../assets/estacao.avif" alt="Image 1">
+            <div class="card-content">
+                <h2 class="card-title">Titulo</h2>
+                <p class="card-description" style="white-space: pre-line;">
+                    Status: Disponível ou Indisponível
+                    Estação: ID estação atual
+                    Dono: ID dono
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

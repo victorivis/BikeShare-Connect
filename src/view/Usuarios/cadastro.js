@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault(); // Evita o reload da página
 
     // Obtém os valores dos campos
-    const tipo = "Comum"
+    const tipo = document.getElementById("tipo").value;
     const cpf_cnpj = document.getElementById("cpf_cnpj").value;
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("message").textContent = "Usuário cadastrado com sucesso!";
         document.getElementById("userForm").reset();
         console.log("Usuário cadastrado");
+        // Redireciona o usuário para login.html
+            window.location.href = "login.html";
       } else {
         document.getElementById("message").textContent = result.error || "Erro ao cadastrar usuário.";
         console.log("erro no cadastro")

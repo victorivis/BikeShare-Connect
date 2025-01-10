@@ -28,6 +28,15 @@ async function createBicicleta(objeto){
     }
 }
 
+async function deleteBicicleta(id) {
+    try{
+        return await Bicicleta.destroy({where: {id: id}});
+    }
+    catch(error){
+        throw new Error("Error deleting object");
+    }
+}
+
 async function retirarBicicleta(ID_Usuario, ID_Bicicleta) {
     try{
         const bicicleta = await filtrarBicicleta(ID_Bicicleta);
@@ -110,4 +119,4 @@ async function historicoEstacao(ID_Estacao) {
     }
 }
 
-export { getBicicleta, createBicicleta, filtrarBicicleta, devolverBicicleta, retirarBicicleta };
+export { getBicicleta, createBicicleta, filtrarBicicleta, devolverBicicleta, retirarBicicleta, deleteBicicleta };

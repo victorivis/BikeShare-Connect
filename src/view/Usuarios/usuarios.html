@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Usuário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Buscar Usuário</h1>
+    </header>
+
+    <section>
+        <div>
+            <label for="userId">ID do Usuário:</label>
+            <input type="text" id="userId" placeholder="Digite o ID do usuário" required>
+            <button onclick="buscarUsuario()">Buscar</button>
+        </div>
+        
+        <div id="usuario-info">
+            <!-- Aqui os dados do usuário serão exibidos -->
+        </div>
+        
+        <div id="error-message" style="color: red;"></div>
+    </section>
+
+    <footer>
+        <a href="lobby.html">lobby</a>
+    </footer>
+    <script src="usuarios.js"></script>
+</body>
+</html>

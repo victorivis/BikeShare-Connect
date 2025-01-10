@@ -1,8 +1,11 @@
 import express from "express"
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
 import { getAllUsers, getUserById, getUserByCpfCnpj, createUser, updateUser, deleteUser } from "./userController.js";
-import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta } from "./funcoesBicicleta.js";
+import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta, deleteBicicleta } from "./funcoesBicicleta.js";
+import { autenticar, verificarComum, verificarAdministradorBicicletas, verificarAdministradorGeral } from './autenticar.js';
 
 import multer from 'multer';
 import cors from 'cors';
@@ -96,7 +99,7 @@ server.get("/users", async (req, res) => {
 
 
 // Rota para obter um usuário pelo ID
-server.get("/users/:id", async (req, res) => {
+server.get("/users/:id", autenticar, verificarComum, async (req, res) => {
     const { id } = req.params;
     try {
         const user = await getUserById(id);
@@ -126,7 +129,7 @@ server.get("/users/cpfCnpj/:cpfCnpj", async (req, res) => {
 
 //EndPoint Login
 server.post("/login", async (req, res) => {
-    const { cpf_cnpj, senha } = req.body; // Captura cpf_cnpj e senha do corpo da requisição
+    const { cpf_cnpj, senha } = req.body;
     console.log("acessou metodo post /login");
     try {
         const user = await getUserByCpfCnpj(cpf_cnpj);
@@ -134,16 +137,24 @@ server.post("/login", async (req, res) => {
         if (!user) {
             // Usuário não encontrado
             return res.status(404).json({ error: "Usuário não encontrado" });
-            console.log("usuario n econtrado");
         }
 
-        if (user.senha !== senha) {
+        // Comparar a senha fornecida com o hash salvo no banco
+        const isPasswordValid = await bcrypt.compare(senha, user.senha);
+
+        if (!isPasswordValid) {
             // Senha incorreta
             return res.status(401).json({ error: "Senha incorreta" });
         }
 
+        const token = jwt.sign(
+            { id: user.id, cpf_cnpj: user.cpf_cnpj, tipo: user.tipo }, // Inclui o tipo do usuário no payload
+            "seuSegredoSuperSecreto",
+            { expiresIn: "1h" }
+        ); //gerando token com validade de 1 hora;
+
         // Login bem-sucedido
-        res.status(200).json({ message: "Login bem-sucedido", user });
+        res.status(200).json({ message: "Login bem-sucedido", user , token});
         console.log("sucesso no login");
     } catch (error) {
         console.error("Erro no login:", error);
@@ -163,11 +174,16 @@ server.post("/login", async (req, res) => {
         res.status(400).json({ error: "Failed to create user" });
     }
 });*/
+
 server.post("/users", formData.single("fotoPerfil"), async (req, res) => {
-    console.log("Received body:", req.body); // Log dos dados enviados
+    console.log("Received body:", req.body);
     try {
         // Extrair a foto do buffer, se fornecida
         const fotoPerfil = req.file ? req.file.buffer : null;
+
+        // Hash da senha antes de salvar no banco
+        const saltRounds = 10; // Número de rounds
+        const hashedPassword = await bcrypt.hash(req.body.senha, saltRounds);
 
         // Criar o novo usuário com os dados recebidos
         const newUser = await createUser({
@@ -175,19 +191,19 @@ server.post("/users", formData.single("fotoPerfil"), async (req, res) => {
             cpf_cnpj: req.body.cpf_cnpj,
             nome: req.body.nome,
             telefone: req.body.telefone,
-            senha: req.body.senha, // Recomenda-se usar hashing para a senha!
+            senha: hashedPassword, // Salva a senha como hash
             endereco: req.body.endereco,
             email: req.body.email,
-            fotoPerfil, // Adicionando a foto de perfil
+            fotoPerfil,
         });
 
-        // Responder com o novo usuário criado
         res.status(201).json(newUser);
     } catch (error) {
-        console.error("Error in POST /users:", error); // Log detalhado do erro
+        console.error("Error in POST /users:", error);
         res.status(400).json({ error: "Failed to create user" });
     }
 });
+
 
 
 
@@ -227,11 +243,17 @@ server.get("/bicicleta", async (req, res, next) => {
     }
 });
 
-server.post('/bicicleta', async (req, res, next) => {
+server.post('/bicicleta', formData.single("foto"), async (req, res, next) => {
     try{
-        await createBicicleta(req.body);
+        const foto = req.file != null ? req.file.buffer : "";
 
-        return res.status(200).json({message: "Estacao created sucessfully"});
+        const novaBicicleta = req.body;
+        novaBicicleta.foto = foto;
+        novaBicicleta.disponivel = (!novaBicicleta.ID_EstacaoAtual ? false : true);
+
+        await createBicicleta(novaBicicleta);        
+
+        return res.status(200).json({message: "Bicicleta created sucessfully"});
     }
     catch(erro){
         res.status(400).json({error: "Could not create object"});
@@ -249,6 +271,21 @@ server.get("/bicicleta/:id", async (req, res, next) => {
     }
 });
 
+server.delete("/bicicleta/:id", async (req, res, next) => {
+    const { id } = req.params;
+    try{
+        const resultado = await deleteBicicleta(id);
+        if(resultado > 0){
+            res.status(200).json({message: "Bicicleta deleted sucessfully"});
+        }
+        else{
+            res.status(400).json({error: "informed id is not valid"});
+        }
+    }
+    catch(erro){
+        res.status(500).json({error: "Some error on deleting has occurred"});
+    }
+});
 server.post("/retirarBicicleta", async (req, res, next) => {
     try{
         const { ID_Usuario, ID_Bicicleta } = req.body;
