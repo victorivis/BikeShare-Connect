@@ -9,27 +9,29 @@
 <body>
     <div id="cellphone">
         <div id="signin-header">
-            <div id="ping1"></div>
-            <div id="ping2"></div>
-            <div id="active"></div>
-            <img id="cyclistImage" src="assets/cyclist.png"/>
-            <img id="coneImage" src="assets/cone.png"/>
+            <img id="coneImageLeft" src="assets/coneEsquerda.png"/>
+            <img id="coneImageRight" src="assets/coneDireita.png"/>
+            <p id="dica-login">Faça log in para continuar...</p>       
             <h1 id="signin-title">BikeShare</h1>
         </div>
         <div id="signin-container">
-            <h1 id="signin-subtitle">Sign Up</h1>
-            <div id="inputs-container">
-                <p class="input-name">Telefone</p>
-                <input type="tel" class="signin-input" placeholder="+55 (83) 9304-1820"/>
-                <p class="input-name">CPF</p>
-                <input type="text" class="signin-input" placeholder="123.123.123-12"/>
-                <p class="input-name">Endereço</p>
-                <input type="text" class="signin-input" placeholder="Rua Francisca Fernandes Claudino, 440"/>
+            <div id="login-title-container">
+                <h1 id="signin-subtitle">Log In</h1>
+                <img id="cyclistImage" src="assets/cyclist.png"/>
             </div>
-            <button id="next-button">Next</button>
-            <img id="whiteBike" src="assets/whiteBike.png"/>
+            <div id="inputs-container">
+                <p class="input-name">Email</p>
+                <input type="email" class="signin-input" placeholder="danfm@gmail.com"/>
+                <p class="input-name">Password</p>
+                <input type="password" class="signin-input" placeholder="******"/>
+            </div>
+            <div id="login-button-container">
+                <button id="next-button">Login</button>
+            </div>
+        </div>
+        <div id="footer-container">
             <footer id="signin-footer">
-                <h7>Já tem uma conta? <a class="soft-link" href=""><b>Log in</b></a></h7>
+                <h7><a class="soft-link" href=""><b>Esqueceu a senha?</b></a></h7>
             </footer>
         </div>
     </div>

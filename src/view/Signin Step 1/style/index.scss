@@ -154,10 +154,10 @@ body {
             top: calc($signinContainerHeight * 0.95);
             right: 5%;
         }
+    }
 
-        .soft-link {
-            @include normalText($white);
-            text-decoration: none;
-        }
+    .soft-link {
+        @include normalText($white);
+        text-decoration: none;
     }
 }
