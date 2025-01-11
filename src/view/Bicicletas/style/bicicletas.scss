@@ -19,13 +19,19 @@ body {
 }
 
 #cellphone {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     min-height: 100vh;
-    max-width: 100vw;
-    background-color: #F0F4F8;
+    width: 100%;
+    background-color: $gray;
     padding-bottom: 70px;
+    overflow-x: hidden;
 
     #appbar {
         @include flexCenter(row);
+        width: 100%;
         justify-content: flex-start;
         background-color: $darkOrange;
         height: calc(100vh * 0.07);

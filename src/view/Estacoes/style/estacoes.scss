@@ -1,0 +1,10 @@
+// Imports
+@import '../../Signin\ Step\ 1/style/variables.scss';
+@import '../../Signin\ Step\ 1/style/mixins.scss';
+@import '../../Bicicletas/style/bicicletas.scss';
+
+#cellphone {
+    #listaEstacoes {
+        @extend #listaBicicletas;
+    }
+}
