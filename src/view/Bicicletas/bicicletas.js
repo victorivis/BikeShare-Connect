@@ -78,15 +78,7 @@ async function receberBicicletas() {
         const dados = await resposta.json();
         
         for(let i=0; i<dados.message.length; i++){
-            console.log(dados.message[i].disponivel);
-
-            const status = "Status: " + (dados.message[i].disponivel ? "Disponivel" : "Indisponivel") + "\n";
-            const estacaoAtual = `Estacao: ${dados.message[i].ID_EstacaoAtual}\n`;
-            const dono = `Dono: ${dados.message[i].ID_UsuarioDono}\n`;
-            const textoDescricao = status + estacaoAtual + dono;
-
-            //console.log(dados.message[i]);
-            //console.log(textoDescricao);
+            const textoDescricao = !dados.message[i].descricao ? "Sem descrição" : dados.message[i].descricao;
 
             //Inserir card de estacao
             const card = document.createElement('div');
@@ -165,12 +157,14 @@ async function cadastrarBicicleta() {
     const inputFoto = document.getElementById("foto");
     const inputUsuario = document.getElementById("UsuarioDono");
     const inputEstacao = document.getElementById("ID_Estacao");
+    const inputDescricao = document.getElementById("descricao");
 
     const formulario = new FormData();
     
     formulario.append('foto', inputFoto.files[0]);
     formulario.append('ID_UsuarioDono', inputUsuario.value);
     formulario.append('ID_EstacaoAtual', inputEstacao.value);
+    formulario.append('descricao', inputDescricao.value);
 
     console.log(formulario.keys());
     console.log(formulario.getAll('ID_UsuarioDono'));
@@ -184,11 +178,12 @@ async function cadastrarBicicleta() {
         .then(async response => {
             console.log(response);
             if(response.ok){
-                alert("Estacao criada");
+                alert("Bicicleta criada");
 
                 inputFoto.value = '';
                 inputUsuario.value = '';
                 inputEstacao.value = '';
+                inputDescricao.value = '';
 
                 await receberBicicletas();
             }

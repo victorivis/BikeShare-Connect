@@ -22,7 +22,7 @@ const ip = "localhost";
     /* Rotas estacoes */
 
 //Recebe as estacoes sem crashar o PostMan
-server.get("/reduzido", async (req, res, next) => {
+server.get("/estacao-reduzido", async (req, res, next) => {
     try{
         const resposta = await getEstacao();
 
@@ -236,6 +236,18 @@ server.delete("/users/:id", async (req, res) => {
 server.get("/bicicleta", async (req, res, next) => {
     try{
         const resposta = await getBicicleta();
+        return res.status(200).json({message: resposta});
+    }
+    catch(erro){
+        res.status(500).json({error: "Could not contact server database"});
+    }
+});
+
+server.get("/bicicleta-reduzido", async (req, res, next) => {
+    try{
+        const resposta = await getBicicleta();
+        
+        resposta.forEach((elemento) => {elemento.foto = ""})
         return res.status(200).json({message: resposta});
     }
     catch(erro){
