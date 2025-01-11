@@ -1,0 +1,73 @@
+// Imports
+@import '../../Signin\ Step\ 1/style/variables.scss';
+@import '../../Signin\ Step\ 1/style/mixins.scss';
+@import '../../Bicicletas/style/bicicletas.scss';
+
+// All
+* {
+    font-family: $poppins;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: $gray;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#cellphone {
+    #cadastro {
+        @include flexCenter(column);
+        background-color: $white;
+        font-family: $workSans;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 5%;
+        width: 95%;
+        align-items: center;
+
+        #cadastro-header {
+            @include flexCenter(column);
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+
+            img {
+                height: calc(100vw * 0.3);
+                width: calc(100vw * 0.3);
+                border-radius: 100%;
+            }
+
+            h1 {
+                font-size: 2.3em;
+                font-weight: 700;
+            }
+        }
+
+        .campo {
+            @include flexCenter(row);
+            justify-content: space-between;
+            width: 100%;
+            margin: 10px 0;
+            padding-left: 3%;
+            padding-right: 3%;
+
+            img {
+                width: 5%;
+            }
+        }
+
+        .resposta {
+            @include flexCenter(row);
+            width: 100%;
+
+            h3 {
+                width: 90%;
+            }
+        }
+    }
+}

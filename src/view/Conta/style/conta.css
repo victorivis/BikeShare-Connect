@@ -4,6 +4,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@font-face {
+  font-family: "More Sugar";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./more-sugar.regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "More Sugar";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./more-sugar.regular.ttf") format("truetype");
+}
 @font-face {
   font-family: "More Sugar";
   font-style: normal;
@@ -181,4 +199,75 @@ body {
 }
 #cellphone #navbar img {
   max-height: 5.25vh;
-}/*# sourceMappingURL=bicicletas.css.map */
+}
+
+* {
+  font-family: "Poppins", Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #e7f0f1;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#cellphone #cadastro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #ffffff;
+  font-family: "Work Sans", Helvetica, sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 5%;
+  width: 95%;
+  align-items: center;
+}
+#cellphone #cadastro #cadastro-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+#cellphone #cadastro #cadastro-header img {
+  height: 30vw;
+  width: 30vw;
+  border-radius: 100%;
+}
+#cellphone #cadastro #cadastro-header h1 {
+  font-size: 2.3em;
+  font-weight: 700;
+}
+#cellphone #cadastro .campo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin: 10px 0;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+#cellphone #cadastro .campo img {
+  width: 5%;
+}
+#cellphone #cadastro .resposta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+}
+#cellphone #cadastro .resposta h3 {
+  width: 90%;
+}/*# sourceMappingURL=conta.css.map */
