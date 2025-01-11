@@ -106,10 +106,11 @@ async function receberBicicletas() {
             card.appendChild(foto);
 
             const conteudo = document.createElement('div');
+            conteudo.className = "card-content"
 
             const titulo = document.createElement('h2');
             titulo.className = "card-title";
-            titulo.textContent = `Bicicleta - ${dados.message[i].id}`;
+            titulo.textContent = `Bike #${dados.message[i].id}`;
             conteudo.appendChild(titulo);
 
             const descricao = document.createElement("p");
@@ -118,14 +119,36 @@ async function receberBicicletas() {
             descricao.style = "white-space: pre-line;";
             conteudo.appendChild(descricao);
 
-            const botao = document.createElement("button");
-            botao.style = "position: relative; top: -112px; left: 160px;";
-            const imagemBotao = document.createElement("img");
-            imagemBotao.src = "../assets/trash.png";
-            imagemBotao.style = "width: 15px;";
-            botao.appendChild(imagemBotao);
-            botao.onclick=criadorDeletar(dados.message[i].id);
-            conteudo.appendChild(botao);
+            
+            const ID_Estacao = dados.message[i].ID_EstacaoAtual;
+            console.log("id", ID_Estacao);
+            
+            if(dados.message[i].disponivel){
+                const estacao = document.createElement("p");
+                estacao.className = "card-station";
+                const iconeEstacao=document.createElement("img");
+                iconeEstacao.src = "./assets/locationIcon.png";
+                const textoEstacao = document.createTextNode(`Estação ${ID_Estacao}`);
+                estacao.appendChild(iconeEstacao);
+                estacao.appendChild(textoEstacao);
+                conteudo.appendChild(estacao);
+            }
+            else{
+                const indisponivel = document.createElement("p");
+                indisponivel.textContent = "Indisponível";
+                conteudo.appendChild(indisponivel);
+            }
+
+            if(window.ehADM){
+                const botao = document.createElement("button");
+                botao.id="button-trash"
+                const imagemBotao = document.createElement("img");
+                imagemBotao.src = "../assets/trash.png";
+                imagemBotao.id = "trash";
+                botao.appendChild(imagemBotao);
+                botao.onclick=criadorDeletar(dados.message[i].id);
+                conteudo.appendChild(botao);
+            }
 
             card.appendChild(conteudo);
 
@@ -181,12 +204,16 @@ async function cadastrarBicicleta() {
     }
 }
 
-const botao = document.getElementById("cadastrar");
-botao.addEventListener("click", cadastrarBicicleta);
+if(window.ehADM){
+    const botao = document.getElementById("cadastrar");
+    botao.addEventListener("click", cadastrarBicicleta);
+}
 
 async function receberDados(){
-    await receberUsuarios();
-    await receberEstacoes();
+    if(window.ehADM){
+        await receberUsuarios();
+        await receberEstacoes();
+    }
     await receberBicicletas();
 }
 
