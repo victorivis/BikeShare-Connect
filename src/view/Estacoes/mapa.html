@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela mapa</title>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <link rel="stylesheet" href="./style/mapa.css">
+    <script src="./mapa.js" defer></script>
+</head>
+<body>
+    <div id="cellphone">
+        <div id="API-Leaflet">
+            <div id="map"></div>
+            <!-- 
+            <input id="nome" type="text" placeholder="nome">
+            <input id="foto" type="file" placeholder="foto">
+            <button id="submit-estacao"> Criar Estação </button>
+            -->
+        </div>
+
+        <!-- Barra de Navegação -->
+        <div id="navbar">
+            <img src="./assets/homeIcon.png" alt="Home">
+            <div id="active">
+                <img src="./assets/mapsIcon.png" alt="Location">
+            </div>
+            <img src="./assets/stationIcon.png" alt="Station">
+            <img src="./assets/userIcon.png" alt="User">
+        </div>
+    </div>
+</body>
+</html>

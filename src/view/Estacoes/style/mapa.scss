@@ -1,0 +1,29 @@
+// Imports
+@import '../../Signin\ Step\ 1/style/variables.scss';
+@import '../../Signin\ Step\ 1/style/mixins.scss';
+@import './estacoes.scss';
+
+#cellphone {
+    max-height: 100%;
+    height: 100vh;
+
+    #API-Leaflet {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+    
+        #map {
+            z-index: 1;
+            height: 100%; 
+            width: 100%; 
+            display: inline-block;
+        }
+    }
+
+    .cadastro-container {
+        position: absolute;
+        bottom: 0px;
+        z-index: 3;
+    }
+}

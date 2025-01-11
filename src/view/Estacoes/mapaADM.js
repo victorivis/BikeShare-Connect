@@ -99,3 +99,104 @@ async function receberMarcadores(){
 }
 
 receberMarcadores();
+
+async function enviarFormulario() {
+    const latitude = marcadorEstacao.getLatLng().lat;
+    const longitude = marcadorEstacao.getLatLng().lng;
+
+    const inputNome = document.getElementById("nome");
+    const nome = inputNome.value;
+    const inputFile = document.getElementById("foto");
+    const inputDescricao = document.getElementById("descricao");
+    const descricao = inputDescricao.value;
+
+    console.log("descricao");
+    console.log(descricao);
+    
+    console.log(inputFile.files.length);
+    if(nome==""){
+        alert("Preencha o nome");
+        return;
+    }
+
+    if(marcadorEstacao._mapToAdd==null){
+        alert("Clique no mapa para marcar o local da estacao");
+        return;
+    }
+
+    //Me surpreende muito que isso nao causa erro
+    const foto = inputFile.files[0];
+
+    const posMarcador = `'POINT(${latitude} ${longitude})', 4326`;
+    console.log(posMarcador);
+    console.log("Arquivo", inputFile.files[0]);
+
+    const formData = new FormData();
+    formData.append('foto', foto);
+    formData.append('nome', nome);
+    formData.append('localizacao', posMarcador);
+    formData.append('descricao', descricao);
+
+    console.log("form");
+    console.log(formData.getAll("descricao"));
+ 
+    await fetch('http://localhost:3000/estacao', {
+            method: 'POST',
+            body: formData
+        }
+    )
+    .then(response => {
+        console.log(response);
+        if(response.ok){
+            alert("Estacao criada");
+        }
+        else{
+            alert("Deu ruim");
+        }
+    });
+
+    //Limpar os campos
+    inputNome.value = '';
+    inputFile.value = '';
+    inputDescricao.value = '';
+}
+
+async function enviarERecriar(){
+    await enviarFormulario();
+    await receberMarcadores();
+}
+
+//Criar a parte do html de cadastrar uma nova estação
+if(ehAdmin){
+
+    const destino = document.getElementById("API-Leaflet");
+
+    const containerCadastro = document.createElement("div")
+    containerCadastro.className = "cadastro-container";
+
+    const inputNome = document.createElement("input");
+    inputNome.type = "text";
+    inputNome.placeholder="nome";
+    inputNome.id="nome";
+    containerCadastro.appendChild(inputNome);
+
+    const inputDescricao = document.createElement("input");
+    inputDescricao.type = "text";
+    inputDescricao.placeholder="descricao";
+    inputDescricao.id="descricao";
+    containerCadastro.appendChild(inputDescricao);
+
+    const inputFoto = document.createElement("input");
+    inputFoto.type = "file";
+    inputFoto.placeholder="foto";
+    inputFoto.id="foto";
+    containerCadastro.appendChild(inputFoto);
+
+    const botaoEstacao = document.createElement("button");
+    botaoEstacao.textContent = "Criar Estação";
+    botaoEstacao.id = "submit-estacao";
+    botaoEstacao.addEventListener('click', enviarERecriar);
+    containerCadastro.appendChild(botaoEstacao);
+
+    destino.appendChild(containerCadastro);
+}
