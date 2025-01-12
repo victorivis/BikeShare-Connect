@@ -124,22 +124,22 @@ async function receberBicicletas() {
                 estacao.appendChild(iconeEstacao);
                 estacao.appendChild(textoEstacao);
                 conteudo.appendChild(estacao);
+
+                if(window.ehADM){
+                    const botao = document.createElement("button");
+                    botao.id="button-trash"
+                    const imagemBotao = document.createElement("img");
+                    imagemBotao.src = "../assets/trash.png";
+                    imagemBotao.id = "trash";
+                    botao.appendChild(imagemBotao);
+                    botao.onclick=criadorDeletar(dados.message[i].id);
+                    estacao.appendChild(botao);
+                }
             }
             else{
                 const indisponivel = document.createElement("p");
                 indisponivel.textContent = "Indisponível";
                 conteudo.appendChild(indisponivel);
-            }
-
-            if(window.ehADM){
-                const botao = document.createElement("button");
-                botao.id="button-trash"
-                const imagemBotao = document.createElement("img");
-                imagemBotao.src = "../assets/trash.png";
-                imagemBotao.id = "trash";
-                botao.appendChild(imagemBotao);
-                botao.onclick=criadorDeletar(dados.message[i].id);
-                conteudo.appendChild(botao);
             }
 
             card.appendChild(conteudo);
