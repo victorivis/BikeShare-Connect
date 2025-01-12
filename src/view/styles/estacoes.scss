@@ -1,0 +1,10 @@
+// Imports
+@import './variables';
+@import './mixins';
+@import './bicicletas.scss';
+
+#cellphone {
+    #listaEstacoes {
+        @extend #listaBicicletas;
+    }
+}

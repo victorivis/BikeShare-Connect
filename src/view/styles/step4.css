@@ -189,87 +189,63 @@ body {
   text-decoration: none;
 }
 
-body {
-  max-height: 100vh;
+#cellphone {
+  display: flex;
+  height: 100vh;
+  align-items: flex-end;
 }
-
-#cellphone #signin-header #dica-login {
-  font-family: "Poppins", Helvetica, sans-serif;
-  color: #000000;
+#cellphone #signin-header {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  text-align: center;
+  background-color: #bf592b;
+  height: 90%;
   width: 100%;
-  position: absolute;
-  height: 18%;
+  max-width: 100%;
+  border-radius: 30px 30px 0px 0px;
 }
 #cellphone #signin-header #signin-title {
-  height: 32.1428571429%;
+  position: unset;
 }
-#cellphone #signin-header #coneImageLeft, #cellphone #signin-header #coneImageRight {
-  position: absolute;
-  top: 10.7142857143%;
-  height: 9.45%;
-}
-#cellphone #signin-header #coneImageRight {
-  right: 0px;
-}
-#cellphone #signin-header #coneImageLeft {
-  left: 0px;
-}
-#cellphone #signin-container {
-  height: 61%;
-  width: 100%;
-  border-radius: 30px 30px 30px 30px;
-}
-#cellphone #signin-container #login-title-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  align-items: flex-end;
-  width: 100%;
-  gap: 5%;
-}
-#cellphone #signin-container #login-title-container #signin-subtitle {
-  margin-bottom: 10%;
-}
-#cellphone #signin-container #inputs-container {
-  margin-bottom: 5px;
-}
-#cellphone #signin-container #login-button-container {
+#cellphone #signin-header #pfp-container {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 20.13%;
-  border-radius: 30px 30px 30px 30px;
-  width: 100%;
-  background-color: #edbea4;
+  border-radius: 100%;
+  background-color: #fe854f;
+  width: 50%;
 }
-#cellphone #signin-container #login-button-container #next-button {
+#cellphone #signin-header #pfp {
+  width: 100%;
+}
+#cellphone #signin-header #pfp-description {
   font-family: "Poppins", Helvetica, sans-serif;
   color: #ffffff;
-  height: 75%;
+  text-align: center;
+}
+#cellphone #signin-header #pfp-addin {
+  font-family: "Poppins", Helvetica, sans-serif;
+  color: #ffffff;
+  text-align: center;
+}
+#cellphone #signin-header #next-button {
+  font-family: "Poppins", Helvetica, sans-serif;
+  color: #ffffff;
   width: 30%;
   border-radius: 30px;
+  height: 6.789%;
   border-color: #ffffff;
   border: 5px;
   border-style: solid;
   background-color: rgba(255, 255, 255, 0);
-  margin: 0px;
+  margin-top: 2.34vh;
+  margin-bottom: 11.7vh;
 }
-#cellphone #footer-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 12%;
-  width: 100%;
-}
-#cellphone #footer-container .soft-link {
-  font-family: "Poppins", Helvetica, sans-serif;
-  color: #bf592b;
-}/*# sourceMappingURL=index.css.map */
+#cellphone #signin-header #whiteBike {
+  position: absolute;
+  height: 9.49%;
+  top: 69.35%;
+  right: 5%;
+}/*# sourceMappingURL=step4.css.map */

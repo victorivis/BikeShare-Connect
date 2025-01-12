@@ -175,6 +175,18 @@ body {
   height: 24px;
   margin-right: 5px;
 }
+#cellphone #listaBicicletas .card .card-content .card-station #button-trash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0);
+  border: 0px;
+  position: absolute;
+  right: 4%;
+}
 #cellphone #navbar {
   position: fixed;
   bottom: 0;
