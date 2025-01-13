@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BikeShare Connect</title>
     <link rel="stylesheet" href="../styles/step3.css">
+    <script src="../scripts/step3.js" defer></script>
 </head>
 <body>
     <div id="cellphone">
@@ -20,11 +21,11 @@
             <h1 id="signin-subtitle">Sign Up</h1>
             <div id="inputs-container">
                 <p class="input-name">Telefone</p>
-                <input type="tel" class="signin-input" placeholder="+55 (83) 9304-1820"/>
+                <input type="tel" id="telefone" class="signin-input" placeholder="(83) 9304-1820" maxlength="11"/>
                 <p class="input-name">CPF</p>
-                <input type="text" class="signin-input" placeholder="123.123.123-12"/>
+                <input type="text" id="cpf" class="signin-input" placeholder="123.123.123-12"/>   
                 <p class="input-name">Endereço</p>
-                <input type="text" class="signin-input" placeholder="Rua Francisca Fernandes Claudino, 440"/>
+                <input type="text" id="endereco" class="signin-input" placeholder="Rua Francisca Fernandes Claudino, 440"/>
             </div>
             <button id="next-button">Next</button>
             <img id="whiteBike" src="assets/whiteBike.png"/>

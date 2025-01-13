@@ -97,6 +97,17 @@ server.get("/users", async (req, res) => {
     }
 });
 
+server.get("/users-reduzido", async (req, res) => {
+    try {
+        const users = await getAllUsers();
+
+        users.forEach((elemento) => {elemento.fotoPerfil = '';})
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to retrieve users" });
+    }
+});
+
 
 // Rota para obter um usuário pelo ID
 server.get("/users/:id", autenticar, verificarComum, async (req, res) => {
