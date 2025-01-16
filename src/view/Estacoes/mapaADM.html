@@ -13,17 +13,21 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
     <link rel="stylesheet" href="../styles/mapa.css">
-    <script src="./mapaADM.js" defer></script>
+
+    <script src="./ehAdmin.js"></script>
+    <script src="./mapa.js" defer></script>
 </head>
 <body>
     <div id="cellphone">
         <div id="API-Leaflet">
             <div id="map"></div>
-            <!-- 
-            <input id="nome" type="text" placeholder="nome">
-            <input id="foto" type="file" placeholder="foto">
-            <button id="submit-estacao"> Criar Estação </button>
-            -->
+
+            <div class="cadastro-container">
+                <input id="nome" type="text" placeholder="nome">
+                <input id="descricao" type="text" placeholder="descricao">
+                <input id="foto" type="file" placeholder="foto">
+                <button id="submit-estacao"> Criar Estação </button>
+            </div>
         </div>
 
         <!-- Barra de Navegação -->

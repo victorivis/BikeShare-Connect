@@ -1,5 +1,8 @@
 //API Leaflet
-var map = L.map('map').setView([-6.88, -38.58], 13);
+
+const posPadrao = [-6.88, -38.58]; //Cajazeiras
+const zoom = 13;
+var map = L.map('map').setView(posPadrao, zoom);
 const grupoMarcadores = L.layerGroup().addTo(map);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -25,10 +28,39 @@ function onMapClick(e) {
 
 map.on('click', onMapClick);
 
+var iconePessoa = L.icon({
+    iconUrl: '../assets/pin-pessoa.png',  // URL do ícone de pessoa
+    iconSize: [32, 32],  // Tamanho do ícone
+    iconAnchor: [16, 32],  // Posição de ancoragem
+    popupAnchor: [0, -32]  // Posição do pop-up
+});
+
+async function receberLocalizacao(){
+    //Localizacao atual
+    function sucesso(pos){
+        console.log("Pos autal");
+        console.log(pos.coords.latitude, pos.coords.longitude);
+        let posX=pos.coords.latitude;
+        let posY=pos.coords.longitude;
+
+        map.setView([posX, posY], 17);
+        L.marker([posX, posY], {icon: iconePessoa}).addTo(map);
+    }
+    function falha(erro){
+        alert("Nao foi possível receber a localização atual");
+    }
+
+    navigator.geolocation.watchPosition(sucesso, falha, {
+        //enableHighAccuracy: true,
+        timeout: 5000
+    });
+};
+receberLocalizacao();
+
 //Comunicacao com o banco de dados
 //Infelizmente CORS e um monte de outras politicas obrigam a fazer tudo num unico script
 
-const ehAdmin = true;
+const ehAdmin = window.ehAdmin;
 
 async function deletarEstacao(id){
     try{
@@ -99,3 +131,74 @@ async function receberMarcadores(){
 }
 
 receberMarcadores();
+
+async function enviarFormulario() {
+    const latitude = marcadorEstacao.getLatLng().lat;
+    const longitude = marcadorEstacao.getLatLng().lng;
+
+    const inputNome = document.getElementById("nome");
+    const nome = inputNome.value;
+    const inputFile = document.getElementById("foto");
+    const inputDescricao = document.getElementById("descricao");
+    const descricao = inputDescricao.value;
+
+    console.log("descricao");
+    console.log(descricao);
+    
+    console.log(inputFile.files.length);
+    if(nome==""){
+        alert("Preencha o nome");
+        return;
+    }
+
+    if(marcadorEstacao._mapToAdd==null){
+        alert("Clique no mapa para marcar o local da estacao");
+        return;
+    }
+
+    //Me surpreende muito que isso nao causa erro
+    const foto = inputFile.files[0];
+
+    const posMarcador = `'POINT(${latitude} ${longitude})', 4326`;
+    console.log(posMarcador);
+    console.log("Arquivo", inputFile.files[0]);
+
+    const formData = new FormData();
+    formData.append('foto', foto);
+    formData.append('nome', nome);
+    formData.append('localizacao', posMarcador);
+    formData.append('descricao', descricao);
+
+    console.log("form");
+    console.log(formData.getAll("descricao"));
+ 
+    await fetch('http://localhost:3000/estacao', {
+            method: 'POST',
+            body: formData
+        }
+    )
+    .then(response => {
+        console.log(response);
+        if(response.ok){
+            alert("Estacao criada");
+        }
+        else{
+            alert("Deu ruim");
+        }
+    });
+
+    //Limpar os campos
+    inputNome.value = '';
+    inputFile.value = '';
+    inputDescricao.value = '';
+}
+
+async function enviarERecriar(){
+    await enviarFormulario();
+    await receberMarcadores();
+}
+
+if(ehAdmin==true){
+    const botaoEstacao = document.getElementById("submit-estacao");
+    botaoEstacao.addEventListener('click', enviarERecriar);
+}
