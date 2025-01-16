@@ -1,4 +1,33 @@
-//API Leaflet
+    // popUp do SweetAlert
+
+async function confirmarOperacao(codigoCorreto) {
+    const codigoParaMostrar = codigoCorreto;
+    
+    return Swal.fire({
+        title: 'Confirmar deleção',
+        html: `Digite o ID abaixo para confirmar:<br><span style="font-size: 20px; color: #000000; font-weight: bold;">${codigoParaMostrar}</span>`,
+        input: 'text',
+        inputPlaceholder: 'Digite o código',
+        showCancelButton: true,
+        confirmButtonText: 'Deletar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: (codigoDigitado) => {
+            if (codigoDigitado != codigoCorreto) {
+                Swal.showValidationMessage('Código incorreto');
+                return false;
+            }
+            return true;
+        }
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            return true;
+        } else {
+            return false; 
+        }
+    });
+}
+
+    // API Leaflet
 
 const posPadrao = [-6.88, -38.58]; //Cajazeiras
 const zoom = 13;
@@ -29,17 +58,14 @@ function onMapClick(e) {
 map.on('click', onMapClick);
 
 var iconePessoa = L.icon({
-    iconUrl: '../assets/pin-pessoa.png',  // URL do ícone de pessoa
-    iconSize: [32, 32],  // Tamanho do ícone
-    iconAnchor: [16, 32],  // Posição de ancoragem
-    popupAnchor: [0, -32]  // Posição do pop-up
+    iconUrl: '../assets/pin-pessoa.png',
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32]
 });
 
-async function receberLocalizacao(){
-    //Localizacao atual
+async function receberLocalizacaoAtual(){
     function sucesso(pos){
-        console.log("Pos autal");
-        console.log(pos.coords.latitude, pos.coords.longitude);
         let posX=pos.coords.latitude;
         let posY=pos.coords.longitude;
 
@@ -55,27 +81,34 @@ async function receberLocalizacao(){
         timeout: 5000
     });
 };
-receberLocalizacao();
+receberLocalizacaoAtual();
 
-//Comunicacao com o banco de dados
-//Infelizmente CORS e um monte de outras politicas obrigam a fazer tudo num unico script
+    //Comunicacao com o banco de dados
+    //Infelizmente CORS e um monte de outras politicas obrigam a fazer tudo num unico script
 
 const ehAdmin = window.ehAdmin;
 
 async function deletarEstacao(id){
-    try{
-        const resposta = await fetch(`http://localhost:3000/estacao/${id}`, {
-            method: "DELETE",
-        });
+    const confimado = await confirmarOperacao(id);
+    
+    console.log("Confirmado");
+    console.log(confimado);
 
-        if (!resposta.ok) {
-            const mensagem = `Erro: ${resposta.status} - ${resposta.statusText}`;
-            alert(`Falha ao deletar a estação. ${mensagem}`);
-            return;
+    if(confimado == true){
+        try{
+            const resposta = await fetch(`http://localhost:3000/estacao/${id}`, {
+                method: "DELETE",
+            });
+
+            if (!resposta.ok) {
+                const mensagem = `Erro: ${resposta.status} - ${resposta.statusText}`;
+                alert(`Falha ao deletar a estação. ${mensagem}`);
+                return;
+            }
         }
-    }
-    catch(erro){
-        alert("Deu algum erro");
+        catch(erro){
+            alert("Deu algum erro");
+        }
     }
 }
 
