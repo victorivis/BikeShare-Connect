@@ -193,4 +193,114 @@ body {
 }
 #cellphone #navbar img {
   max-height: 5.25vh;
+}
+
+#bike-taker-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+}
+
+#bike-taker {
+  width: 90%;
+  border-radius: 7.5px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#bike-modal {
+  background-color: #fff;
+  width: 90vw;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+#bike-taker-container.hidden {
+  display: none;
+}
+
+#close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #555;
+  cursor: pointer;
+}
+
+#taken-bike-photos {
+  width: 80%;
+  height: auto;
+  font-size: 61px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+#taken-bike-id {
+  font-size: 43px;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0 5px;
+}
+
+#taken-bike-description {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#taken-bike-actions {
+  display: flex;
+  width: 100%;
+  padding: 5px;
+  gap: 5px;
+}
+
+#rent-bike-button, #give-bike-button {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#rent-bike-button {
+  background-color: #28a745;
+  color: white;
+}
+
+#rent-bike-button:hover {
+  background-color: #218838;
+}
+
+#give-bike-button {
+  background-color: #ffc107;
+  color: black;
+}
+
+#give-bike-button:hover {
+  background-color: #e0a800;
 }/*# sourceMappingURL=bicicletas.css.map */

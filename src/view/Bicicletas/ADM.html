@@ -14,6 +14,27 @@
 </head>
 <body>
     <div id="cellphone">
+        <div id="bike-taker-container" class="hidden">
+            <script defer>
+                document.getElementById('bike-taker-container').addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('bike-taker-container')) {
+                        document.getElementById('bike-taker-container').classList.add('hidden');
+                    }
+                });
+            </script>
+            <div id="bike-taker">
+                <img id="taken-bike-photos" src="https://conteudo.sesc-rs.com.br/wp-content/uploads/2021/09/iStock-1056751684.jpg">
+                <button id="close-button">
+                    <img>
+                </button>
+                <h1 id="taken-bike-id">Bike #043061</h1>
+                <h1 id="taken-bike-description">Bike super prática para ciclismo em área urbanada.</h1>
+                <div id="taken-bike-actions">
+                    <button id="rent-bike-button">Retirar</button>
+                    <button id="give-bike-button">Guardar</button>
+                </div>
+            </div>
+        </div>
         <!-- App Bar -->
         <div id="appbar">
             <img id="logo" src="./assets/manCycling.png" alt="Logo">
