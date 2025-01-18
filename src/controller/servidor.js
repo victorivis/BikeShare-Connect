@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
-import { getAllUsers, getUserById, getUserByCpfCnpj, createUser, updateUser, deleteUser } from "./userController.js";
+import { getAllUsers, getUserById, getUserByCpfCnpj, getUserByEmail, createUser, updateUser, deleteUser } from "./userController.js";
 import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta, deleteBicicleta } from "./funcoesBicicleta.js";
 import { autenticar, verificarComum, verificarAdministradorBicicletas, verificarAdministradorGeral } from './autenticar.js';
 
@@ -138,7 +138,62 @@ server.get("/users/cpfCnpj/:cpfCnpj", async (req, res) => {
     }
 });
 
-//EndPoint Login
+//Rota para buscar usuario por email
+server.get("/users/email/:email", async (req, res) => {
+    const { email } = req.params;
+
+    try {
+        const user = await getUserByEmail(email);
+
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ error: "Usuário não encontrado" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao buscar usuário" });
+    }
+});
+
+//EndPoint Login 
+server.post("/login", async (req, res) => {
+    const { email, senha } = req.body;
+    console.log("acessou metodo post /login");
+    try {
+        const user = await getUserByEmail(email);
+        if (!user) {
+            // Usuário não encontrado
+            return res.status(404).json({ error: "Usuário não encontrado" });
+        }
+        console.log(senha);
+        console.log(user.senha);
+
+        // Comparar a senha fornecida com o hash salvo no banco
+        const isPasswordValid = await bcrypt.compare(senha, user.senha);
+        if (!isPasswordValid) {
+            // Senha incorreta
+            return res.status(401).json({ error: "Senha incorreta" });
+        }
+          /*  if (senha !== user.senha) {
+                return res.status(401).json({ error: "Senha incorreta" });
+            }*/
+
+        const token = jwt.sign(
+            { id: user.id, cpf_cnpj: user.cpf_cnpj, email: user.email, tipo: user.tipo }, // dados do payload
+            "seuSegredoSuperSecreto",
+            { expiresIn: "3h" }
+        ); //gerando token com validade de 1 hora;
+
+        // Login bem-sucedido
+        res.status(200).json({ message: "Login bem-sucedido", user , token});
+        console.log("sucesso no login");
+    } catch (error) {
+        console.error("Erro no login:", error);
+        res.status(500).json({ error: "Erro ao processar login" });
+    }
+});
+
+/* LOGIN POR CPF_CNPJ
 server.post("/login", async (req, res) => {
     const { cpf_cnpj, senha } = req.body;
     console.log("acessou metodo post /login");
@@ -171,8 +226,7 @@ server.post("/login", async (req, res) => {
         console.error("Erro no login:", error);
         res.status(500).json({ error: "Erro ao processar login" });
     }
-});
-
+});*/
 
 // Rota para criar um novo usuário
 /*server.post("/users", async (req, res) => {
@@ -218,8 +272,33 @@ server.post("/users", formData.single("fotoPerfil"), async (req, res) => {
 
 
 
-// Rota para atualizar um usuário
-server.put("/users/:id", async (req, res) => {
+// Rota para atualizar um usuário com foto
+server.put("/users/:id", formData.single("fotoPerfil"), async (req, res) => {
+    const { id } = req.params;
+    const { nome, telefone, email, endereco } = req.body; // Extrair dados do corpo da requisição
+    let fotoPerfil = null;
+
+    if (req.file) {
+        // Se uma nova foto de perfil foi enviada, atribua o buffer do arquivo
+        fotoPerfil = req.file.buffer;
+    }
+
+    try {
+        // Chama a função de atualização do usuário, passando os dados atualizados
+        const updatedUser = await updateUser(id, { nome, telefone, email, endereco, fotoPerfil });
+        
+        if (!updatedUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        
+        res.status(200).json(updatedUser);  // Retorna o usuário atualizado
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(400).json({ error: "Failed to update user" });
+    }
+});
+
+/*server.put("/users/:id", async (req, res) => {
     const { id } = req.params;
     try {
         const updatedUser = await updateUser(id, req.body);
@@ -228,7 +307,7 @@ server.put("/users/:id", async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: "Failed to update user" });
     }
-});
+});*/
 
 // Rota para deletar um usuário
 server.delete("/users/:id", async (req, res) => {
