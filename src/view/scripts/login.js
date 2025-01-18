@@ -21,11 +21,18 @@ async function loginUsuario(){
         if (response.ok) {
             // Exibe mensagem de sucesso
             console.log("Usuário logado:", result.user); // Log do usuário logado
-
+            const token = result.token;
             console.log("token", result.token);
             localStorage.setItem("token", result.token); // Salva o token no localStorage
             // Redireciona o usuário para pag de bicicletas
-            window.location.href = "../Bicicletas/bicicletas.html";
+            const payload = JSON.parse(atob(token.split(".")[1])); // Decodifica o payload
+            console.log(payload.cpf_cnpj);
+            if(payload.tipo !== "Comum"){
+                window.location.href = "../Bicicletas/ADM.html";
+            }
+            else{
+                window.location.href = "../Bicicletas/bicicletas.html"
+                ;}
         } else {
             // Exibe mensagem de erro vinda do servidor ou uma padrão
            console.log("Erro ao realizar login.");
