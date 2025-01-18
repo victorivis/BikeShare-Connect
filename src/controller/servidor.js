@@ -276,7 +276,7 @@ server.post("/users", formData.single("fotoPerfil"), async (req, res) => {
 server.put("/users/:id", formData.single("fotoPerfil"), async (req, res) => {
     const { id } = req.params;
     const { nome, telefone, email, endereco } = req.body; // Extrair dados do corpo da requisição
-    let fotoPerfil = null;
+    let fotoPerfil;
 
     if (req.file) {
         // Se uma nova foto de perfil foi enviada, atribua o buffer do arquivo
