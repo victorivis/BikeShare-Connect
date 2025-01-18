@@ -151,7 +151,7 @@ async function receberBicicletas() {
                 const estacao = document.createElement("p");
                 estacao.className = "card-station";
                 const iconeEstacao=document.createElement("img");
-                iconeEstacao.src = "./assets/locationIcon.png";
+                iconeEstacao.src = "../assets/locationIcon.png";
                 const textoEstacao = document.createTextNode(`Estação ${ID_Estacao}`);
                 estacao.appendChild(iconeEstacao);
                 estacao.appendChild(textoEstacao);

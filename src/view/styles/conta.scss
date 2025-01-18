@@ -1,7 +1,7 @@
 // Imports
-@import '../../Signin\ Step\ 1/style/variables.scss';
-@import '../../Signin\ Step\ 1/style/mixins.scss';
-@import '../../Bicicletas/style/bicicletas.scss';
+@import './variables.scss';
+@import './mixins.scss';
+@import './bicicletas.scss';
 
 // All
 * {
@@ -36,10 +36,22 @@ body {
             width: 100%;
             padding: 10px;
 
-            img {
-                height: calc(100vw * 0.3);
-                width: calc(100vw * 0.3);
-                border-radius: 100%;
+            #images-container {
+                @include flexCenter(row);
+
+                img {
+                    height: calc(100vw * 0.3);
+                    width: calc(100vw * 0.3);
+                    border-radius: 100%;
+                }
+    
+                #editarFoto {
+                    position: absolute;
+                    width: 5%;
+                    height: auto;
+                    z-index: 3;
+                    left: 66vw;
+                }
             }
 
             h1 {
@@ -65,7 +77,8 @@ body {
             @include flexCenter(row);
             width: 100%;
 
-            h3 {
+            h2 {
+                font-size: 1.3em;
                 width: 90%;
             }
         }
