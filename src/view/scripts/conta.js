@@ -31,6 +31,7 @@ window.onload = async function () {
         }
     } catch (error) {
         // Captura e exibe erros de conexão
+        alert("Erro ao se conectar com o banco de dados.")
         console.error("Erro ao buscar usuário, erro ao conectar com servidor:", error);
     }
 };
@@ -94,15 +95,57 @@ function mostrarUsuario(usuario) {
     document.getElementById("fotoEmail").addEventListener("click", () => editarCampo("email", usuario));
     document.getElementById("fotoEndereco").addEventListener("click", () => editarCampo("endereco", usuario));
     document.getElementById("fotoNome").addEventListener("click", () => editarCampo("nome", usuario));
-    document.getElementById("fotoCPF").addEventListener("click", () => editarCampo("nome", usuario));
+    document.getElementById("editarFoto").addEventListener("click", editarFoto);
 
+    async function editarFoto(){
+        Swal.fire({
+            title: 'Selecione sua foto de perfil',
+            input: 'file',
+            inputAttributes: {
+              'accept': 'image/*',
+              'aria-label': 'Selecione sua foto de perfil'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Enviar',
+            cancelButtonText: 'Cancelar',
+            preConfirm: (file) => {
+              return new Promise((resolve, reject) => {
+                if (!file) {
+                  Swal.showValidationMessage('Você precisa selecionar um arquivo')
+                  reject();
+                } else {
+                  resolve(file);
+                }
+              });
+            }
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+                const arquivo = result.value;
+                
+                try {
+                    await atualizarUsuario("fotoPerfil", arquivo);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Foto atualizada!',
+                        text: 'Sua foto de perfil foi atualizada com sucesso.'
+                    });
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: `Não foi possível atualizar sua foto de perfil. Detalhes: ${error.message || 'Erro desconhecido'}`,
+                    });
+                }
+            }
+        });
+    }
 
-    function editarCampo(campo, usuario) {
+    async function editarCampo(campo, usuario) {
         const novoValor = prompt(`Digite o novo ${campo}:`, usuario[campo]);
 
         if (novoValor && novoValor !== usuario[campo]) {
             // Chama a função para atualizar o campo no backend
-            atualizarUsuario(campo, novoValor);
+            await atualizarUsuario(campo, novoValor);
         }
     }
 
@@ -117,13 +160,6 @@ function mostrarUsuario(usuario) {
         if (campo === "nome") {
             const nomeMain = document.getElementById("nome");
             nomeMain.textContent = novoValor;
-        }
-        // Se o campo for fotoPerfil (imagem)
-        if (campo === "fotoPerfil") {
-            const fotoPerfil = document.getElementById("fotoInput").files[0];
-            if (fotoPerfil) {
-                body.append("fotoPerfil", fotoPerfil); // Adiciona o arquivo de imagem
-            }
         }
 
         try {
@@ -140,10 +176,11 @@ function mostrarUsuario(usuario) {
                 console.log(`Usuário ${campo} atualizado com sucesso`);
                 location.reload();  // Atualiza a página para refletir a alteração
             } else {
-                console.log("Erro ao atualizar o usuário:", data.error);
+                throw new Error(data.error || "Erro desconhecido ao atualizar o usuário");
             }
         } catch (error) {
             console.error("Erro ao atualizar o usuário:", error);
+            throw error; // Lança o erro para que o Swal capture
         }
     }
 

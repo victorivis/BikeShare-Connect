@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BikeShare</title>
     <link rel="stylesheet" href="./style/conta.css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.28/dist/sweetalert2.all.min.js"></script>
+
     <script src="../scripts/conta.js" defer></script>
 </head>
 
@@ -20,6 +24,7 @@
         <!-- Lista de Bicicletas -->
         <div id="cadastro">
             <header id="cadastro-header">
+                <img  id="editarFoto" src="assets/drawIcon.png"/>
                 <img id="pfp" src="https://i.ytimg.com/vi/Yh6x6UHkUo8/maxresdefault.jpg" />
                 <h1 id="nome">Mr. Bean</h1>
             </header>
@@ -53,7 +58,6 @@
             </div>
             <div id="cpf" class="campo">
                 <h2>CPF:</h2>
-                <img id="fotoCPF" src="assets/drawIcon.png" />
             </div>
             <div id="resposta-cpf" class="resposta">
                 <h2>103.116.504-57</h2>

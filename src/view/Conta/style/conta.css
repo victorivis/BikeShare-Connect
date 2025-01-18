@@ -250,9 +250,10 @@ body {
   width: 100%;
   padding: 10px;
 }
-#cellphone #cadastro #cadastro-header img {
+#cellphone #cadastro #cadastro-header img:not(#editarFoto) {
   height: 30vw;
   width: 30vw;
+  object-fit: cover;
   border-radius: 100%;
 }
 #cellphone #cadastro #cadastro-header h1 {
@@ -272,6 +273,12 @@ body {
 }
 #cellphone #cadastro .campo img {
   width: 5%;
+}
+#editarFoto{
+  width: 5%;
+  position: relative;
+  top: 120px;
+  left: 50px;
 }
 #cellphone #cadastro .resposta {
   display: flex;
