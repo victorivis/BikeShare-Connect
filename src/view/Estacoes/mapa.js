@@ -65,18 +65,23 @@ var iconePessoa = L.icon({
     popupAnchor: [0, -32]
 });
 
+let pararLocalizacao=false;
 async function receberLocalizacaoAtual(){
     function sucesso(pos){
+        if(pararLocalizacao==false){
             let posX=pos.coords.latitude;
             let posY=pos.coords.longitude;
     
             map.setView([posX, posY], 17);
             L.marker([posX, posY], {icon: iconePessoa}).addTo(map);
             pararLocalizacao=true;
+        }
     }
     function falha(erro){
+        if(pararLocalizacao==false){
             alert("Nao foi possível receber a localização atual");
             pararLocalizacao=true;
+        }
     }
 
     navigator.geolocation.watchPosition(sucesso, falha, {
