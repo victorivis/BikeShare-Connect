@@ -2,7 +2,7 @@ import express from "express"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { getEstacao, createEstacao, geomFromText, deleteEstacao } from "./funcoesEstacao.js";
+import { getEstacao, createEstacao, geomFromText, deleteEstacao, updateEstacao } from "./funcoesEstacao.js";
 import { getAllUsers, getUserById, getUserByCpfCnpj, getUserByEmail, createUser, updateUser, deleteUser } from "./userController.js";
 import { getBicicleta, createBicicleta, filtrarBicicleta, retirarBicicleta, devolverBicicleta, deleteBicicleta } from "./funcoesBicicleta.js";
 import { autenticar, verificarComum, verificarAdministradorBicicletas, verificarAdministradorGeral } from './autenticar.js';
@@ -17,7 +17,6 @@ server.use(cors());
 server.use(express.urlencoded({ extended: true}))
 
 const port = 3000;
-const ip = "localhost";
 
     /* Rotas estacoes */
 
@@ -84,7 +83,39 @@ server.delete("/estacao/:id", async (req, res, next) => {
     }
 });
 
+// Rota para atualizar um usuário com foto
+server.put("/estacao/:id", formData.single("foto"), async (req, res) => {
+    const { id } = req.params;
+    const { nome, descricao, localizacao } = req.body; // Extrair dados do corpo da requisição
+    let foto;
 
+    if (req.file) {
+        // Se uma nova foto de perfil foi enviada, atribua o buffer do arquivo
+        foto = req.file.buffer;
+    }
+
+    let geometria;
+    if(localizacao){
+        console.log("Mudou");
+        geometria = await geomFromText(localizacao);
+    }
+    else{
+        console.log("Nao mudou");
+    }
+
+    try {
+        const estacaoAtualizada = await updateEstacao(id, { nome, descricao, localizacao: geometria, foto });
+        
+        if (!estacaoAtualizada) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        
+        res.status(200).json(estacaoAtualizada);
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(400).json({ error: "Failed to update user" });
+    }
+});
 
     /* Rotas usuarios */
 
@@ -425,6 +456,6 @@ server.post("/devolverBicicleta", async (req, res, next) => {
 });
 
 console.log(`Listening on port: ${port}`);
-server.listen(port, ip);
+server.listen(port);
 
 console.log("Uau");

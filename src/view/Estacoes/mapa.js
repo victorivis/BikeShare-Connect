@@ -1,15 +1,15 @@
     // popUp do SweetAlert
 
-async function confirmarOperacao(codigoCorreto) {
+async function confirmarOperacao(codigoCorreto, textoDescricao=null, textoBotao=null) {
     const codigoParaMostrar = codigoCorreto;
     
     return Swal.fire({
         title: 'Confirmar deleção',
-        html: `Digite o ID abaixo para confirmar:<br><span style="font-size: 20px; color: #000000; font-weight: bold;">${codigoParaMostrar}</span>`,
+        html: !textoDescricao ? `Digite o ID abaixo para confirmar:<br><span style="font-size: 20px; color: #000000; font-weight: bold;">${codigoParaMostrar}</span>` : textoDescricao,
         input: 'text',
         inputPlaceholder: 'Digite o código',
         showCancelButton: true,
-        confirmButtonText: 'Deletar',
+        confirmButtonText: !textoBotao ? 'Deletar' : textoBotao,
         cancelButtonText: 'Cancelar',
         preConfirm: (codigoDigitado) => {
             if (codigoDigitado != codigoCorreto) {
@@ -117,6 +117,11 @@ async function criadorBotaoDeletar(id) {
     await receberMarcadores();
 }
 
+async function criadorBotaoEditar(id) {
+    await enviarFormulario(editarEstacao, id);
+    await receberMarcadores();
+}
+
 async function receberMarcadores(){
     try{
         grupoMarcadores.clearLayers();
@@ -173,7 +178,46 @@ async function receberMarcadores(){
 
 receberMarcadores();
 
-async function enviarFormulario() {
+async function criarEstacao(formData, id){
+    await fetch('http://localhost:3000/estacao', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        console.log(response);
+        if(response.ok){
+            alert("Estacao criada");
+        }
+        else{
+            alert("Deu ruim");
+        }
+    });
+}
+
+async function editarEstacao(formData, id) {
+    console.log("Editando", id);
+    for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
+    //if(false){
+        await fetch(`http://localhost:3000/estacao/${id}`, {
+            method: 'PUT',
+            body: formData
+        })
+        .then(response => {
+            console.log(response);
+            if(response.ok){
+                alert("Estacao criada");
+            }
+            else{
+                alert("Deu ruim");
+            }
+        });
+    //}
+}
+
+async function enviarFormulario(funcaoDaRequisicao, id=null) {
     const latitude = marcadorEstacao.getLatLng().lat;
     const longitude = marcadorEstacao.getLatLng().lng;
 
@@ -187,46 +231,38 @@ async function enviarFormulario() {
     console.log(descricao);
     
     console.log(inputFile.files.length);
-    if(nome==""){
+    if(funcaoDaRequisicao==criarEstacao && nome==""){
         alert("Preencha o nome");
         return;
     }
 
+    let posMarcador='';
     if(marcadorEstacao._mapToAdd==null){
-        alert("Clique no mapa para marcar o local da estacao");
-        return;
+        if(funcaoDaRequisicao==criarEstacao){
+            alert("Clique no mapa para marcar o local da estacao");
+            return;
+        }
+    }
+    else{
+        posMarcador = `'POINT(${latitude} ${longitude})', 4326`;
     }
 
     //Me surpreende muito que isso nao causa erro
     const foto = inputFile.files[0];
 
-    const posMarcador = `'POINT(${latitude} ${longitude})', 4326`;
     console.log(posMarcador);
     console.log("Arquivo", inputFile.files[0]);
 
     const formData = new FormData();
     formData.append('foto', foto);
-    formData.append('nome', nome);
-    formData.append('localizacao', posMarcador);
-    formData.append('descricao', descricao);
+    if(nome!='') formData.append('nome', nome);
+    if(posMarcador!='') formData.append('localizacao', posMarcador);
+    if(descricao!='') formData.append('descricao', descricao);
 
     console.log("form");
     console.log(formData.getAll("descricao"));
  
-    await fetch('http://localhost:3000/estacao', {
-            method: 'POST',
-            body: formData
-        }
-    )
-    .then(response => {
-        console.log(response);
-        if(response.ok){
-            alert("Estacao criada");
-        }
-        else{
-            alert("Deu ruim");
-        }
-    });
+    await funcaoDaRequisicao(formData, id);
 
     //Limpar os campos
     inputNome.value = '';
@@ -235,7 +271,7 @@ async function enviarFormulario() {
 }
 
 async function enviarERecriar(){
-    await enviarFormulario();
+    await enviarFormulario(criarEstacao);
     await receberMarcadores();
 }
 
