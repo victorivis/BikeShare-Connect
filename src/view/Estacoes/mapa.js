@@ -27,6 +27,40 @@ async function confirmarOperacao(codigoCorreto, textoDescricao=null, textoBotao=
     });
 }
 
+async function selecionarOpcao(lista) {
+    const pos = await Swal.fire({
+        title: 'Escolha uma opção:',
+        input: 'select',
+        inputOptions: lista.reduce((acc, item, index) => {
+            acc[index] = item;  // Cria um objeto para mapear índice -> item
+            return acc;
+        }, {}),
+        inputPlaceholder: 'Selecione uma opção',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: (selectedIndex) => {
+            if (selectedIndex !== null) {
+                return selectedIndex;
+            } else {
+                return null;
+            }
+        },
+        customClass: {
+            popup: 'swal2-popup',
+            input: 'swal2-select'
+        }
+    });
+
+    if(pos.isConfirmed==false){
+        return null;
+    }
+    else if(pos.value == ''){
+        return null
+    }
+    return pos.value;
+}
+
     // API Leaflet
 
 const posPadrao = [-6.88, -38.58]; //Cajazeiras
@@ -291,19 +325,26 @@ if(ehAdmin==true){
 const botaoPesquisa = document.querySelector(".searchButton");
 const inputPesquisa = document.querySelector(".searchInput");
 
-botaoPesquisa.addEventListener("click", ()=>{
+botaoPesquisa.addEventListener("click", async ()=>{
 
     fetch(`https://nominatim.openstreetmap.org/search?q=${inputPesquisa.value}&format=json`)
         .then(async response => await response.json())
-        .then(data => {
-            console.log(data);
-
-            if(data.length != 0){
-                let centro = [data[0].lat, data[0].lon];
-                map.setView(centro, zoomProximo);
+        .then(async data => {
+            if(data.length == 0){
+                alert('Não foi possivel encontrar nenhuma localizacao com esse nome');
             }
-            else{
-                alert('Não foi possivel encontrar a localizacao');
-            }            
+            
+            lista = []
+
+            data.forEach(element => {
+                lista.push(element.display_name);
+            });
+
+            const posSelecionada = await selecionarOpcao(lista);
+
+            if(posSelecionada!=null){
+                let centro = [data[posSelecionada].lat, data[posSelecionada].lon];
+                map.setView(centro, zoomProximo);
+            }       
         });
 });

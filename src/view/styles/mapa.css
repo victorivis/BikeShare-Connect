@@ -426,3 +426,15 @@ body {
 #cellphone .editStationButton:hover, #cellphone .deleteStationButton:hover {
   transform: translateY(-3px);
 }/*# sourceMappingURL=mapa.css.map */
+
+.swal2-popup {
+  width: 300px !important;
+  font-size: 14px;
+  padding: 20px;
+}
+
+.swal2-select option{
+  width: 100px;
+  overflow-x: hidden;
+  font-size: 11px;
+}
