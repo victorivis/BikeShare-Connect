@@ -140,17 +140,25 @@ async function receberMarcadores(){
             const imagem = objetoFoto.data.length == 0 ? '' :
              `<img src="${imgURL}" alt="Imagem" style="width: 100px;" />`;
 
+            const botaoEditar = !ehAdmin ? '' : `
+                <button class="editStationButton" onclick = "criadorBotaoEditar(${dados.message[i].id})">
+                    <img src="../assets/drawIcon.png" alt="alterar" style="width: 16px;" />
+                </button>
+            `;
+
             const botaoDeletar = !ehAdmin ? '' : `
-                <button onclick = "criadorBotaoDeletar(${dados.message[i].id})">
+                <button class="deleteStationButton" onclick = "criadorBotaoDeletar(${dados.message[i].id})">
                     <img src="../assets/trash.png" alt="lixo" style="width: 16px;" />
                 </button>
             `;
 
+            const descricaoEstacao = dados.message[i].descricao;
+
              const textoPopUp = 
             `<div>
-                <p>${dados.message[i].nome}</p>
+                <p>${dados.message[i].nome} ${botaoEditar} ${botaoDeletar} </p>
+                <p>${descricaoEstacao} </p>
                 ${imagem}
-                ${botaoDeletar}
             </div>`;
 
             temp.on('mouseover', evento => {
