@@ -30,6 +30,7 @@ async function confirmarOperacao(codigoCorreto, textoDescricao=null, textoBotao=
     // API Leaflet
 
 const posPadrao = [-6.88, -38.58]; //Cajazeiras
+const zoomProximo = 17;
 const zoom = 13;
 var map = L.map('map').setView(posPadrao, zoom);
 const grupoMarcadores = L.layerGroup().addTo(map);
@@ -66,14 +67,16 @@ var iconePessoa = L.icon({
 
 async function receberLocalizacaoAtual(){
     function sucesso(pos){
-        let posX=pos.coords.latitude;
-        let posY=pos.coords.longitude;
-
-        map.setView([posX, posY], 17);
-        L.marker([posX, posY], {icon: iconePessoa}).addTo(map);
+            let posX=pos.coords.latitude;
+            let posY=pos.coords.longitude;
+    
+            map.setView([posX, posY], 17);
+            L.marker([posX, posY], {icon: iconePessoa}).addTo(map);
+            pararLocalizacao=true;
     }
     function falha(erro){
-        alert("Nao foi possível receber a localização atual");
+            alert("Nao foi possível receber a localização atual");
+            pararLocalizacao=true;
     }
 
     navigator.geolocation.watchPosition(sucesso, falha, {
@@ -208,7 +211,7 @@ async function editarEstacao(formData, id) {
         .then(response => {
             console.log(response);
             if(response.ok){
-                alert("Estacao criada");
+                alert("Estacao Editada");
             }
             else{
                 alert("Deu ruim");
@@ -279,3 +282,23 @@ if(ehAdmin==true){
     const botaoEstacao = document.getElementById("submit-estacao");
     botaoEstacao.addEventListener('click', enviarERecriar);
 }
+
+const botaoPesquisa = document.querySelector(".searchButton");
+const inputPesquisa = document.querySelector(".searchInput");
+
+botaoPesquisa.addEventListener("click", ()=>{
+
+    fetch(`https://nominatim.openstreetmap.org/search?q=${inputPesquisa.value}&format=json`)
+        .then(async response => await response.json())
+        .then(data => {
+            console.log(data);
+
+            if(data.length != 0){
+                let centro = [data[0].lat, data[0].lon];
+                map.setView(centro, zoomProximo);
+            }
+            else{
+                alert('Não foi possivel encontrar a localizacao');
+            }            
+        });
+});
