@@ -334,6 +334,7 @@ botaoPesquisa.addEventListener("click", async ()=>{
                 alert('Não foi possivel encontrar nenhuma localizacao com esse nome');
             }
             
+            console.log(data);
             lista = []
 
             data.forEach(element => {

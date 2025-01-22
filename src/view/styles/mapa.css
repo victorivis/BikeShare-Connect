@@ -434,7 +434,8 @@ body {
 }
 
 .swal2-select option{
-  width: 100px;
-  overflow-x: hidden;
-  font-size: 11px;
+  max-width: 100px !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll;
+  font-size: 8.5px;
 }
