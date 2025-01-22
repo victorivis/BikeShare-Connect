@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BikeShare Connect</title>
-    <link rel="stylesheet" href="./style/index.css">
+    <link rel="stylesheet" href="../styles/step1.css">
+    <script src="../scripts/step1.js" defer></script>
 </head>
 <body>
     <div id="cellphone">
@@ -12,24 +13,24 @@
             <div id="active"></div>
             <div id="ping2"></div>
             <div id="ping3"></div>
-            <img id="cyclistImage" src="assets/cyclist.png"/>
-            <img id="coneImage" src="assets/cone.png"/>
+            <img id="cyclistImage" src="../assets/cyclist.png"/>
+            <img id="coneImage" src="../assets/cone.png"/>
             <h1 id="signin-title">BikeShare</h1>
         </div>
         <div id="signin-container">
             <h1 id="signin-subtitle">Sign Up</h1>
             <div id="inputs-container">
                 <p class="input-name">Nome</p>
-                <input type="text" class="signin-input" placeholder="Daniel De Morais Farias"/>
+                <input type="text" id="nome" class="signin-input" placeholder="Daniel De Morais Farias"/>
                 <p class="input-name">Email</p>
-                <input type="email" class="signin-input" placeholder="danfm@gmail.com"/>
+                <input type="email" id="email" class="signin-input" placeholder="danfm@gmail.com"/>
                 <p class="input-name">Senha</p>
-                <input type="password" class="signin-input" placeholder="******"/>
-            </div>
+                <input type="password" id="senha" class="signin-input" placeholder="******"/>
+            </div>            
             <button id="next-button">Next</button>
-            <img id="whiteBike" src="assets/whiteBike.png"/>
+            <img id="whiteBike" src="../assets/whiteBike.png"/>
             <footer id="signin-footer">
-                <h7>Já tem uma conta? <a class="soft-link" href=""><b>Log in</b></a></h7>
+                <h7>Já tem uma conta? <a class="soft-link" href="../Login/index.html"><b>Log in</b></a></h7>
             </footer>
         </div>
     </div>

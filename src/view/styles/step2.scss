@@ -1,0 +1,82 @@
+// Animação de clique com intervalo
+@keyframes clickEffect {
+    15% {
+        transform: scaleY(1);
+        border-bottom-width: 10px; 
+    }
+    20% {
+        transform: scaleY(0.95); // Diminui a altura na parte superior
+        border-bottom-width: 6px; // Diminui a borda na parte inferior
+    }
+    25% {
+        transform: scaleY(1); // Retorna ao tamanho original
+        border-bottom-width: 10px; // Restaura a largura original da borda
+    }
+    55% {
+        transform: scaleY(1); // Retorna ao tamanho original
+        border-bottom-width: 10px; // Restaura a largura original da borda
+    }
+    60% {
+        transform: scaleY(0.95); // Retorna ao tamanho original
+        border-bottom-width: 6px; // Restaura a largura original da borda
+    }
+    65% {
+        transform: scaleY(1);
+        border-bottom-width: 10px; 
+    }
+    100% {
+        transform: scaleY(1);
+        border-bottom-width: 10px; 
+    }
+}
+
+@import './step1.scss';
+
+#cellphone {
+    $signinContainerHeight: 73%;
+    #signin-header {
+        #active {
+            @include dots($activeDot, 12%, 12px);
+        }
+    }
+
+    #signin-container {
+        $inputsContainerHeight: calc($signinContainerHeight * 0.62);
+        #buttons-container {
+            @include flexCenter(column);
+            gap: 10%;
+            height: $inputsContainerHeight;
+            width: 100%;
+
+            .button {
+                @include normalText($white);
+                @include flexCenter(row);
+                height: calc($inputsContainerHeight * 0.61);
+                width: 70%;
+                border-radius: 50px;
+                border-top: 0px;
+                border-left: 0px;
+                border-right: 0px;
+                border-bottom: 10px solid;
+
+                /* Animação contínua do botão com 2 segundos de clique e 1 segundo de pausa */
+                animation: clickEffect 5s infinite ease-in-out;
+                transform-origin: bottom center; /* Mantém a parte inferior fixa durante a animação */
+
+                .buttonIMG {
+                    height: 50%;
+                }
+            }
+
+            .green {
+                background-color: $green;
+                border-color: $lightGreen;
+            }
+
+            .yellow {
+                background-color: $yellow;
+                border-color: $darkYellow;
+            }
+        }
+    }
+}

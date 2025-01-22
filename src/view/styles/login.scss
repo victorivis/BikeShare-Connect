@@ -1,0 +1,90 @@
+@import './step1.scss';
+
+body {
+    max-height: 100vh;
+}
+
+#cellphone {
+    #signin-header {
+        $headerHeight: 27%;
+        #dica-login {
+            @include normalText($black);
+            @include flexCenter(column);
+            text-align: center;
+            width: 100%;
+            position: absolute;
+            height:  calc($headerHeight / 1.5);
+        }
+
+        #signin-title {
+            height:  calc($headerHeight / 0.84);
+        }
+
+        #coneImageLeft, #coneImageRight {
+            position: absolute;
+            top: calc($headerHeight / 0.84 / 3);
+            height: calc($headerHeight * 0.35);
+        }
+
+        #coneImageRight {
+            right: 0px;
+        }
+
+        #coneImageLeft {
+            left: 0px;
+        }
+    }
+
+    #signin-container {
+        $signinContainerHeight: 61%;
+        height: $signinContainerHeight;
+        width: 100%;
+        border-radius: 30px 30px 30px 30px;
+
+        #login-title-container {
+            @include flexCenter(row);
+            align-items: flex-end;
+            width: 100%;
+            gap: 5%;
+
+            #signin-subtitle {
+                margin-bottom: 10%;
+            }
+        }
+
+        #inputs-container {
+            margin-bottom: 5px;
+        }
+
+        #login-button-container {
+            @include flexCenter(column);
+            height: calc($signinContainerHeight * 0.33);
+            border-radius: 30px 30px 30px 30px;
+            width: 100%;
+            background-color: $lightBrown;
+
+            $inputsContainerHeight: calc($signinContainerHeight * 0.62);
+            #next-button {
+                @include normalText($white);
+                height: 75%;
+                width: 30%;
+                border-radius: 30px;
+                border-color: $white;
+                border: 5px;
+                border-style: solid;
+                background-color: $translucid;
+                margin: 0px;
+            }
+        }
+    }
+
+    #footer-container {
+        @include flexCenter(column);
+        height: 12%;
+        width: 100%;
+
+        .soft-link {
+            @include normalText($darkBrown);
+        }
+    }
+}

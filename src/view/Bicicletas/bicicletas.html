@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BikeShare</title>
+    <link rel="stylesheet" href="../styles/bicicletas.css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.28/dist/sweetalert2.all.min.js"></script>
+
+    <script src="bicicletas.js" defer></script>
+</head>
+<body>
+    <div id="cellphone">
+        <div id="bike-taker-container" class="hidden">
+            <script defer>
+                document.getElementById('bike-taker-container').addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('bike-taker-container')) {
+                        document.getElementById('bike-taker-container').classList.add('hidden');
+                    }
+                });
+            </script>
+            <div id="bike-taker">
+                <img id="taken-bike-photos" src="">
+                <button id="close-button">
+                    <img>
+                </button>
+                <h1 id="taken-bike-id"></h1>
+                <h1 id="taken-bike-description"></h1>
+                <div id="taken-bike-actions">
+                    <button id="rent-bike-button">Retirar</button>
+                    <button id="give-bike-button">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Bar -->
+        <div id="appbar">
+            <img id="logo" src="../assets/manCycling.png" alt="Logo">
+            <h1 id="logo-text">BikeShare</h1>
+        </div>
+        
+        <!-- Botão de Filtros -->
+        <div id="filter-btn">
+            <div id="filter-text">Filtros</div>
+        </div>
+
+        <!-- Lista de Bicicletas -->
+        <div id="listaBicicletas">
+        </div>
+
+        <!-- Barra de Navegação -->
+        <div id="navbar">
+            <a href="../Bicicletas/bicicletas.html" id="active">
+                <img src="../assets/homeIcon.png" alt="Home">
+            </a>
+            
+            <a href="../Estacoes/mapa.html">
+                <img src="../assets/mapsIcon.png" alt="Location">
+            </a>
+            
+            <a href="../Estacoes/estacoes.html">
+                <img src="../assets/stationIcon.png" alt="Station">
+            </a>
+            
+            <a href="../Conta/conta.html">
+                <img src="../assets/userIcon.png" alt="User">
+            </a>
+        </div>
+    </div>
+</body>
+</html>

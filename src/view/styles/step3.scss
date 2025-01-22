@@ -1,0 +1,10 @@
+@import './step1.scss';
+
+#cellphone {
+    $signinContainerHeight: 73%;
+    #signin-header {
+        #active {
+            @include dots($activeDot, 17%, 12px);
+        }
+    }
+}

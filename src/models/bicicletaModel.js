@@ -13,7 +13,7 @@ const Bicicleta = sequelize.define(
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      estadoConservacao: {
+      descricao: {
         type: DataTypes.STRING,
       },
       foto: {

@@ -1,0 +1,409 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@font-face {
+  font-family: "More Sugar";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./more-sugar.regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "More Sugar";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./more-sugar.regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "More Sugar";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./more-sugar.regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "More Sugar";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./more-sugar.regular.ttf") format("truetype");
+}
+* {
+  font-family: "Poppins", Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #e7f0f1;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#cellphone {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #e7f0f1;
+  padding-bottom: 70px;
+  overflow-x: hidden;
+}
+#cellphone #appbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+  background-color: #e46b34;
+  height: 7vh;
+}
+#cellphone #appbar #logo {
+  height: 100%;
+}
+#cellphone #appbar #logo-text {
+  font-size: 2.1em;
+  color: #ffffff;
+  font-weight: 600;
+  margin-left: 10px;
+}
+#cellphone #filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+}
+#cellphone #filter-btn #filter-text {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #ffffff;
+  width: 90%;
+  border-radius: 30px;
+  padding-left: 5%;
+  margin-top: 2%;
+  background-color: #fe854f;
+}
+#cellphone .cadastro-container {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 15px;
+}
+#cellphone .cadastro-container h2 {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+  color: #e46b34;
+  text-align: center;
+}
+#cellphone .cadastro-container input[type=text], #cellphone .cadastro-container select, #cellphone .cadastro-container input[type=file] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+#cellphone .cadastro-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #e46b34;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+#cellphone .cadastro-container button:hover {
+  background-color: #ca521b;
+}
+#cellphone #listaBicicletas {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+}
+#cellphone #listaBicicletas .card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding: 10px;
+  align-items: center;
+}
+#cellphone #listaBicicletas .card img {
+  max-width: 40%;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 15px;
+}
+#cellphone #listaBicicletas .card .card-content {
+  flex: 1;
+}
+#cellphone #listaBicicletas .card .card-content .card-title {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+#cellphone #listaBicicletas .card .card-content .card-description {
+  font-size: 0.9em;
+  color: #000000;
+}
+#cellphone #listaBicicletas .card .card-content .card-station {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+#cellphone #listaBicicletas .card .card-content .card-station img {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+}
+#cellphone #listaBicicletas .card .card-content .card-station #button-trash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0);
+  border: 0px;
+  position: absolute;
+  right: 4%;
+}
+#cellphone #navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 7vh;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+#cellphone #navbar #active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 7vh;
+  border-radius: 100%;
+  background-color: #e46b34;
+}
+#cellphone #navbar img {
+  max-height: 5.25vh;
+}
+
+#bike-taker-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+}
+
+#bike-taker {
+  width: 90%;
+  border-radius: 7.5px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#bike-modal {
+  background-color: #fff;
+  width: 90vw;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+#bike-taker-container.hidden {
+  display: none;
+}
+
+#close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #555;
+  cursor: pointer;
+}
+
+#taken-bike-photos {
+  width: 80%;
+  height: auto;
+  font-size: 61px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+#taken-bike-id {
+  font-size: 43px;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0 5px;
+}
+
+#taken-bike-description {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#taken-bike-actions {
+  display: flex;
+  width: 100%;
+  padding: 5px;
+  gap: 5px;
+}
+
+#rent-bike-button, #give-bike-button {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#rent-bike-button {
+  background-color: #28a745;
+  color: white;
+}
+
+#rent-bike-button:hover {
+  background-color: #218838;
+}
+
+#give-bike-button {
+  background-color: #ffc107;
+  color: black;
+}
+
+#give-bike-button:hover {
+  background-color: #e0a800;
+}
+
+* {
+  font-family: "Poppins", Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #e7f0f1;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#cellphone #cadastro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #ffffff;
+  font-family: "Work Sans", Helvetica, sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 5%;
+  width: 95%;
+  align-items: center;
+}
+#cellphone #cadastro #cadastro-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+#cellphone #cadastro #cadastro-header #images-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+#cellphone #cadastro #cadastro-header #images-container img {
+  height: 30vw;
+  width: 30vw;
+  border-radius: 100%;
+}
+#cellphone #cadastro #cadastro-header #images-container #editarFoto {
+  position: absolute;
+  width: 5%;
+  height: auto;
+  z-index: 3;
+  left: 66vw;
+}
+#cellphone #cadastro #cadastro-header h1 {
+  font-size: 2.3em;
+  font-weight: 700;
+}
+#cellphone #cadastro .campo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin: 10px 0;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+#cellphone #cadastro .campo img {
+  width: 5%;
+}
+#cellphone #cadastro .resposta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+}
+#cellphone #cadastro .resposta h2 {
+  font-size: 1.3em;
+  width: 90%;
+}/*# sourceMappingURL=conta.css.map */

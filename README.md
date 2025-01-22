@@ -16,6 +16,7 @@ Em seguida basta rodar os comandos para instalação das dependências e criaç�
 ```
 npm install
 npm run criarDB
+npm run 
 ```
 
 <div align="center">
