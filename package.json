@@ -8,7 +8,8 @@
     "criarDB": "npx sequelize-cli db:create && npx sequelize-cli db:migrate",
     "migrar": "npx sequelize-cli db:migrate",
     "resetDB": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate",
-    "server": "node src/controller/servidor.js"
+    "server": "node src/controller/servidor.js",
+    "mongo": "node srcMongo/server.js"
   },
   "keywords": [
     "bicicletas",
@@ -24,6 +25,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.10.0",
     "multer": "^1.4.5-lts.1",
     "pg": "^8.13.1",
     "sequelize": "^6.37.5"
