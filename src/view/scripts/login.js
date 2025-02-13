@@ -1,4 +1,4 @@
-async function loginUsuario(){
+async function loginUsuario() {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
@@ -24,24 +24,25 @@ async function loginUsuario(){
             const token = result.token;
             console.log("token", result.token);
             localStorage.setItem("token", result.token); // Salva o token no localStorage
-            // Redireciona o usuário para pag de bicicletas
+            // Redireciona o usuário comum para pag de bicicletas e administradores para ADM
             const payload = JSON.parse(atob(token.split(".")[1])); // Decodifica o payload
             console.log(payload.cpf_cnpj);
-            if(payload.tipo !== "Comum"){
+            if (payload.tipo !== "Comum") {
                 window.location.href = "../Bicicletas/ADM.html";
             }
-            else{
+            else {
                 window.location.href = "../Bicicletas/bicicletas.html"
-                ;}
+                    ;
+            }
         } else {
             // Exibe mensagem de erro vinda do servidor ou uma padrão
-           console.log("Erro ao realizar login.");
+            console.log("Erro ao realizar login.");
         }
     } catch (error) {
         console.error("Erro ao se conectar ao servidor:", error);
     }
 };
 
-    
+
 
 document.getElementById('next-button').addEventListener('click', loginUsuario);

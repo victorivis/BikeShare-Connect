@@ -5,7 +5,7 @@ window.onload = async function () {
 
     // Se o token não estiver presente, redireciona para a página de login
     if (!token) {
-        window.location.href = "../Login/login.html"; // Redireciona para a página de login
+        window.location.href = "../Login/index.html"; // Redireciona para a página de login
         return; // Impede a execução do restante do código
     }
 
