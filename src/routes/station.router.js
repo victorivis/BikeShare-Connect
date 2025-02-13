@@ -6,9 +6,12 @@ import updateStationController from "../controller/updateStationController.js";
 
 const routesStation = Router();
 
-routesStation.get("/estacao", viewStationController);
-routesStation.post("/estacao", createStationController);
-routesStation.delete("/estacao/:id", deleteStationController);
-routesStation.put("/estacao/:id", updateStationController);
+import multer from "multer";
+const formData = multer();
+
+routesStation.get("/station", viewStationController);
+routesStation.post("/station", formData.single("foto"), createStationController);
+routesStation.delete("/station/:id", deleteStationController);
+routesStation.put("/station/:id", updateStationController);
 
 export default routesStation;

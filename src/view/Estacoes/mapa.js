@@ -5,7 +5,7 @@ async function confirmarOperacao(codigoCorreto, textoDescricao=null, textoBotao=
     
     return Swal.fire({
         title: 'Confirmar deleção',
-        html: !textoDescricao ? `Digite o ID abaixo para confirmar:<br><span style="font-size: 20px; color: #000000; font-weight: bold;">${codigoParaMostrar}</span>` : textoDescricao,
+        html: !textoDescricao ? `Digite o trecho destacado para confirmar:<br><span style="font-size: 20px; color: #000000; font-weight: bold;">${codigoParaMostrar}</span>` : textoDescricao,
         input: 'text',
         inputPlaceholder: 'Digite o código',
         showCancelButton: true,
@@ -128,17 +128,18 @@ receberLocalizacaoAtual();
     //Comunicacao com o banco de dados
     //Infelizmente CORS e um monte de outras politicas obrigam a fazer tudo num unico script
 
+const rotaEstacoes = "http://localhost:3000/station";
 const ehAdmin = window.ehAdmin;
 
-async function deletarEstacao(id){
-    const confimado = await confirmarOperacao(id);
+async function deletarEstacao(id, palavraConfirmar){
+    const confimado = await confirmarOperacao(palavraConfirmar);
     
     console.log("Confirmado");
     console.log(confimado);
 
     if(confimado == true){
         try{
-            const resposta = await fetch(`http://localhost:3000/estacao/${id}`, {
+            const resposta = await fetch(`${rotaEstacoes}/${id}`, {
                 method: "DELETE",
             });
 
@@ -154,8 +155,8 @@ async function deletarEstacao(id){
     }
 }
 
-async function criadorBotaoDeletar(id) {
-    await deletarEstacao(id);
+async function criadorBotaoDeletar(id, palavraConfirmar) {
+    await deletarEstacao(id, palavraConfirmar);
     await receberMarcadores();
 }
 
@@ -167,18 +168,24 @@ async function criadorBotaoEditar(id) {
 async function receberMarcadores(){
     try{
         grupoMarcadores.clearLayers();
-        const resposta = await fetch("http://localhost:3000/estacao", {
+        const resposta = await fetch(`${rotaEstacoes}`, {
             method: "GET",
         })
+        console.log(resposta);
 
         const dados = await resposta.json();
+        console.log(dados);
 
-        for(let i=0; i<dados.message.length; i++){
-            const endereco = dados.message[i].localizacao.coordinates;
-            let temp = L.marker([endereco[0], endereco[1]]).addTo(grupoMarcadores);            
+        for(let i=0; i<dados.length; i++){            
+            const idEstacao = dados[i]._id;
+            const nomeEstacao = dados[i].nome;
+            const descricaoEstacao = dados[i].descricao ? dados[i].descricao : "";
+
+            const endereco = dados[i].localizacao.coordinates;
+            let temp = L.marker([endereco[1], endereco[0]]).addTo(grupoMarcadores);
 
             //Bruxaria para ler imagem
-            const objetoFoto = dados.message[i].foto;
+            const objetoFoto = dados[i].foto ? dados[i].foto : "";
             const ListaBytes = new Uint8Array(objetoFoto.data);
             const blob = new Blob([ListaBytes], { type: 'image/png' });
             const imgURL = URL.createObjectURL(blob);
@@ -186,24 +193,22 @@ async function receberMarcadores(){
             //Informacoes no popUp da estacao
             const imagem = objetoFoto.data.length == 0 ? '' :
              `<img src="${imgURL}" alt="Imagem" style="width: 100px;" />`;
-
+             
             const botaoEditar = !ehAdmin ? '' : `
-                <button class="editStationButton" onclick = "criadorBotaoEditar(${dados.message[i].id})">
+                <button class="editStationButton" onclick = "criadorBotaoEditar('${idEstacao}')">
                     <img src="../assets/drawIcon.png" alt="alterar" style="width: 16px;" />
                 </button>
             `;
 
             const botaoDeletar = !ehAdmin ? '' : `
-                <button class="deleteStationButton" onclick = "criadorBotaoDeletar(${dados.message[i].id})">
+                <button class="deleteStationButton" onclick = "criadorBotaoDeletar('${idEstacao}', '${nomeEstacao}')">
                     <img src="../assets/trash.png" alt="lixo" style="width: 16px;" />
                 </button>
             `;
 
-            const descricaoEstacao = dados.message[i].descricao;
-
-             const textoPopUp = 
+            const textoPopUp = 
             `<div>
-                <p>${dados.message[i].nome} ${botaoEditar} ${botaoDeletar} </p>
+                <p>${nomeEstacao} ${botaoEditar} ${botaoDeletar} </p>
                 <p>${descricaoEstacao} </p>
                 ${imagem}
             </div>`;
@@ -221,7 +226,7 @@ async function receberMarcadores(){
 receberMarcadores();
 
 async function criarEstacao(formData, id){
-    await fetch('http://localhost:3000/estacao', {
+    await fetch(`${rotaEstacoes}`, {
         method: 'POST',
         body: formData
     })
@@ -243,7 +248,7 @@ async function editarEstacao(formData, id) {
     }
 
     //if(false){
-        await fetch(`http://localhost:3000/estacao/${id}`, {
+        await fetch(`${rotaEstacoes}/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -286,7 +291,7 @@ async function enviarFormulario(funcaoDaRequisicao, id=null) {
         }
     }
     else{
-        posMarcador = `'POINT(${latitude} ${longitude})', 4326`;
+        posMarcador = `${latitude} ${longitude}`;
     }
 
     //Me surpreende muito que isso nao causa erro

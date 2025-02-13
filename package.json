@@ -9,7 +9,7 @@
     "migrar": "npx sequelize-cli db:migrate",
     "resetDB": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate",
     "server": "node src/controller/servidor.js",
-    "mongo": "node srcMongo/server.js"
+    "mongo": "node src/server.js"
   },
   "keywords": [
     "bicicletas",
