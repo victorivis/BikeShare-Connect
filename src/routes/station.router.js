@@ -12,6 +12,6 @@ const formData = multer();
 routesStation.get("/station", viewStationController);
 routesStation.post("/station", formData.single("foto"), createStationController);
 routesStation.delete("/station/:id", deleteStationController);
-routesStation.put("/station/:id", updateStationController);
+routesStation.put("/station/:id", formData.single("foto"), updateStationController);
 
 export default routesStation;

@@ -182,7 +182,7 @@ async function receberMarcadores(){
             const descricaoEstacao = dados[i].descricao ? dados[i].descricao : "";
 
             const endereco = dados[i].localizacao.coordinates;
-            let temp = L.marker([endereco[1], endereco[0]]).addTo(grupoMarcadores);
+            let temp = L.marker([endereco[0], endereco[1]]).addTo(grupoMarcadores);
 
             //Bruxaria para ler imagem
             const objetoFoto = dados[i].foto ? dados[i].foto : "";
@@ -205,13 +205,14 @@ async function receberMarcadores(){
                     <img src="../assets/trash.png" alt="lixo" style="width: 16px;" />
                 </button>
             `;
-
+            
             const textoPopUp = 
             `<div>
                 <p>${nomeEstacao} ${botaoEditar} ${botaoDeletar} </p>
                 <p>${descricaoEstacao} </p>
                 ${imagem}
             </div>`;
+            
 
             temp.on('mouseover', evento => {
                 temp.bindPopup(textoPopUp).openPopup();
