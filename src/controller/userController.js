@@ -1,5 +1,5 @@
 import { sequelize } from "../../database/sequelize.js";
-import User from "../models/user.js"
+import User from "../models/User.js"
 
 /*async function getAllUsers() {
     return await User.findAll(); // Retorna todos os usuários
