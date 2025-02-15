@@ -1,15 +1,15 @@
 async function receberEstacoes() {
     try{
-        const resposta = await fetch("http://localhost:3000/estacao", {
+        const resposta = await fetch("http://localhost:3000/station", {
             method: "GET",
         });
         const dados = await resposta.json();
 
-        for(let i=0; i<dados.message.length; i++){
-            console.log(dados.message[i].descricao);
+        for(let i=0; i<dados.length; i++){
+            console.log(dados[i].descricao);
 
             //Bruxaria para ler imagem
-            const objetoFoto = dados.message[i].foto;
+            const objetoFoto = dados[i].foto;
             const ListaBytes = new Uint8Array(objetoFoto.data);
             const blob = new Blob([ListaBytes], { type: 'image/png' });
             const imgURL = URL.createObjectURL(blob);
@@ -26,12 +26,12 @@ async function receberEstacoes() {
 
             const titulo = document.createElement('h2');
             titulo.className = "card-title";
-            titulo.textContent = dados.message[i].nome;
+            titulo.textContent = dados[i].nome;
             conteudo.appendChild(titulo);
 
             const descricao = document.createElement("p");
             descricao.className = "card-description";
-            descricao.textContent = dados.message[i].descricao;
+            descricao.textContent = dados[i].descricao;
             conteudo.appendChild(descricao);
 
             card.appendChild(conteudo);
