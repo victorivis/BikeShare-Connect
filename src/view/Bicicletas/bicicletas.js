@@ -3,7 +3,7 @@ async function confirmarOperacao(codigoCorreto, palavraValidar) {
     
     return Swal.fire({
         title: 'Confirmar deleção',
-        html: `Digite o ID abaixo para confirmar:<br><span style="font-size: 20px; color: #000000; font-weight: bold;">${codigoParaMostrar}</span>`,
+        html: `Digite o ID abaixo para confirmar:<br><span style="font-size: 20px; color: #000000; font-weight: bold;">${palavraValidar}</span>`,
         input: 'text',
         inputPlaceholder: 'Digite o código',
         showCancelButton: true,
@@ -87,8 +87,6 @@ async function receberEstacoes() {
         const destino = document.getElementById("ID_Estacao");
         for(let i=0; i<estacoes.length; i++){
             const novaOpcao = document.createElement("option");
-            console.log("ID dos Caba");
-            console.log(estacoes[i]._id);
             novaOpcao.value = estacoes[i]._id;
             novaOpcao.textContent = `${estacoes[i].nome} - ${estacoes[i]._id}`;
             destino.appendChild(novaOpcao);
@@ -146,9 +144,6 @@ async function receberBicicletas() {
             conteudo.appendChild(descricao);
 
             if(dados[i].ID_EstacaoAtual){
-                
-                console.log("A estacao: ");
-                console.log(dados[i].ID_EstacaoAtual);
 
                 let station;
                 try{
@@ -162,8 +157,7 @@ async function receberBicicletas() {
                 }
                         
             
-                const nomeEstacao = station.nome; //station.nome;
-                console.log("nome_estacao", nomeEstacao);
+                const nomeEstacao = station.nome;
 
                 const estacao = document.createElement("p");
                 estacao.className = "card-station";
@@ -181,7 +175,7 @@ async function receberBicicletas() {
                     imagemBotao.src = "../assets/trash.png";
                     imagemBotao.id = "trash";
                     botao.appendChild(imagemBotao);
-                    botao.onclick=criadorDeletar(dados[i]._id, dados[i].nome);
+                    botao.onclick=criadorDeletar(dados[i]._id, i+1);
                     estacao.appendChild(botao);
                 }
             }
@@ -198,7 +192,7 @@ async function receberBicicletas() {
                     imagemBotao.src = "../assets/trash.png";
                     imagemBotao.id = "trash";
                     botao.appendChild(imagemBotao);
-                    botao.onclick=criadorDeletar(dados[i]._id, dados[i].nome);
+                    botao.onclick=criadorDeletar(dados[i]._id, i+1);
                     indisponivel.appendChild(botao);
                 }
             }
