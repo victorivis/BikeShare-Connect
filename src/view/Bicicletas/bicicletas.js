@@ -1,4 +1,4 @@
-async function confirmarOperacao(codigoCorreto) {
+async function confirmarOperacao(codigoCorreto, palavraValidar) {
     const codigoParaMostrar = codigoCorreto;
     
     return Swal.fire({
@@ -10,7 +10,7 @@ async function confirmarOperacao(codigoCorreto) {
         confirmButtonText: 'Deletar',
         cancelButtonText: 'Cancelar',
         preConfirm: (codigoDigitado) => {
-            if (codigoDigitado != codigoCorreto) {
+            if (codigoDigitado != palavraValidar) {
                 Swal.showValidationMessage('Código incorreto');
                 return false;
             }
@@ -28,7 +28,7 @@ async function confirmarOperacao(codigoCorreto) {
 async function deletarBicicleta(id){
 
     try{
-        const resposta = await fetch(`http://localhost:3000/bicicleta/${id}`, {
+        const resposta = await fetch(`http://localhost:3000/bike/${id}`, {
             method: "DELETE",
         });
 
@@ -43,9 +43,9 @@ async function deletarBicicleta(id){
     }
 }
 
-function criadorDeletar(id) {
+function criadorDeletar(id, validador) {
     return async ()=>{
-        const confimado = await confirmarOperacao(id);
+        const confimado = await confirmarOperacao(id, validador);
 
         if(confimado == true){
             await deletarBicicleta(id);
@@ -67,7 +67,7 @@ async function receberUsuarios() {
         const destino = document.getElementById("UsuarioDono");
         for(let i=0; i<usuarios.length; i++){
             const novaOpcao = document.createElement("option");
-            novaOpcao.value = usuarios[i].id;
+            novaOpcao.value = usuarios[i]._id;
             novaOpcao.textContent = `${usuarios[i].nome} - ${usuarios[i].cpf_cnpj}`;
             destino.appendChild(novaOpcao);
         }        
@@ -79,16 +79,18 @@ async function receberUsuarios() {
 
 async function receberEstacoes() {
     try{
-        const resposta = await fetch("http://localhost:3000/estacao", {
+        const resposta = await fetch("http://localhost:3000/station", {
             method: "GET",
         });
         const estacoes = await resposta.json();
         
         const destino = document.getElementById("ID_Estacao");
-        for(let i=0; i<estacoes.message.length; i++){
+        for(let i=0; i<estacoes.length; i++){
             const novaOpcao = document.createElement("option");
-            novaOpcao.value = estacoes.message[i].id;
-            novaOpcao.textContent = `${estacoes.message[i].nome} - ${estacoes.message[i].id}`;
+            console.log("ID dos Caba");
+            console.log(estacoes[i]._id);
+            novaOpcao.value = estacoes[i]._id;
+            novaOpcao.textContent = `${estacoes[i].nome} - ${estacoes[i]._id}`;
             destino.appendChild(novaOpcao);
         }
     }
@@ -104,22 +106,22 @@ async function receberBicicletas() {
     }
     
     try{
-        const resposta = await fetch("http://localhost:3000/bicicleta", {
+        const resposta = await fetch("http://localhost:3000/bike", {
             method: "GET",
         });
         const dados = await resposta.json();
         
-        for(let i=0; i<dados.message.length; i++){
-            const textoDescricao = !dados.message[i].descricao ? "Sem descrição" : dados.message[i].descricao;
+        for(let i=0; i<dados.length; i++){
+            const textoDescricao = !dados[i].descricao ? "Sem descrição" : dados[i].descricao;
 
             //Inserir card de estacao
             const card = document.createElement('div');
             card.className = "card";
 
             const foto = document.createElement('img');
-            if(dados.message[i].foto){
+            if(dados[i].foto){
                 //Bruxaria para ler imagem
-                const objetoFoto = dados.message[i].foto;
+                const objetoFoto = dados[i].foto;
                 const ListaBytes = new Uint8Array(objetoFoto.data);
                 const blob = new Blob([ListaBytes], { type: 'image/png' });
                 const imgURL = URL.createObjectURL(blob);
@@ -134,7 +136,7 @@ async function receberBicicletas() {
 
             const titulo = document.createElement('h2');
             titulo.className = "card-title";
-            titulo.textContent = `Bike #${dados.message[i].id}`;
+            titulo.textContent = `Bike #${i+1}`;
             conteudo.appendChild(titulo);
 
             const descricao = document.createElement("p");
@@ -143,16 +145,31 @@ async function receberBicicletas() {
             descricao.style = "white-space: pre-line;";
             conteudo.appendChild(descricao);
 
+            if(dados[i].ID_EstacaoAtual){
+                
+                console.log("A estacao: ");
+                console.log(dados[i].ID_EstacaoAtual);
+
+                let station;
+                try{
+                    const stationResponse = await fetch(`http://localhost:3000/station/${dados[i].ID_EstacaoAtual}`, {
+                        method: "GET",
+                    });
+                    station = await stationResponse.json();
+                }
+                catch(erro){
+                    alert("Erro ao tentar buscar estacao");
+                }
+                        
             
-            const ID_Estacao = dados.message[i].ID_EstacaoAtual;
-            console.log("id", ID_Estacao);
-            
-            if(dados.message[i].disponivel){
+                const nomeEstacao = station.nome; //station.nome;
+                console.log("nome_estacao", nomeEstacao);
+
                 const estacao = document.createElement("p");
                 estacao.className = "card-station";
                 const iconeEstacao=document.createElement("img");
                 iconeEstacao.src = "../assets/locationIcon.png";
-                const textoEstacao = document.createTextNode(`Estação ${ID_Estacao}`);
+                const textoEstacao = document.createTextNode(`Estação ${nomeEstacao}`);
                 estacao.appendChild(iconeEstacao);
                 estacao.appendChild(textoEstacao);
                 conteudo.appendChild(estacao);
@@ -164,14 +181,26 @@ async function receberBicicletas() {
                     imagemBotao.src = "../assets/trash.png";
                     imagemBotao.id = "trash";
                     botao.appendChild(imagemBotao);
-                    botao.onclick=criadorDeletar(dados.message[i].id);
+                    botao.onclick=criadorDeletar(dados[i]._id, dados[i].nome);
                     estacao.appendChild(botao);
                 }
             }
             else{
                 const indisponivel = document.createElement("p");
+                indisponivel.className = "card-station";
                 indisponivel.textContent = "Indisponível";
                 conteudo.appendChild(indisponivel);
+
+                if(window.ehADM){
+                    const botao = document.createElement("button");
+                    botao.id="button-trash"
+                    const imagemBotao = document.createElement("img");
+                    imagemBotao.src = "../assets/trash.png";
+                    imagemBotao.id = "trash";
+                    botao.appendChild(imagemBotao);
+                    botao.onclick=criadorDeletar(dados[i]._id, dados[i].nome);
+                    indisponivel.appendChild(botao);
+                }
             }
 
             card.appendChild(conteudo);
@@ -203,7 +232,7 @@ async function cadastrarBicicleta() {
     console.log(formulario.getAll('ID_EstacaoAtual'));
 
     try{
-        await fetch('http://localhost:3000/bicicleta', {
+        await fetch('http://localhost:3000/bike', {
             method: 'POST',
             body: formulario
         })
