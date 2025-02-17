@@ -182,7 +182,7 @@ async function receberMarcadores(){
             const descricaoEstacao = dados[i].descricao ? dados[i].descricao : "";
 
             const endereco = dados[i].localizacao.coordinates;
-            let temp = L.marker([endereco[0], endereco[1]]).addTo(grupoMarcadores);
+            let temp = L.marker([endereco[1], endereco[0]]).addTo(grupoMarcadores);
 
             //Bruxaria para ler imagem
             const objetoFoto = dados[i].foto ? dados[i].foto : "";
@@ -247,22 +247,20 @@ async function editarEstacao(formData, id) {
     for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
     }
-
-    //if(false){
-        await fetch(`${rotaEstacoes}/${id}`, {
-            method: 'PUT',
-            body: formData
-        })
-        .then(response => {
-            console.log(response);
-            if(response.ok){
-                alert("Estacao Editada");
-            }
-            else{
-                alert("Deu ruim");
-            }
-        });
-    //}
+    
+    await fetch(`${rotaEstacoes}/${id}`, {
+        method: 'PUT',
+        body: formData
+    })
+    .then(response => {
+        console.log(response);
+        if(response.ok){
+            alert("Estacao Editada");
+        }
+        else{
+            alert("Deu ruim");
+        }
+    });
 }
 
 async function enviarFormulario(funcaoDaRequisicao, id=null) {
@@ -292,7 +290,8 @@ async function enviarFormulario(funcaoDaRequisicao, id=null) {
         }
     }
     else{
-        posMarcador = `${latitude} ${longitude}`;
+        //As coordenadas precisam ser invertidas
+        posMarcador = `${longitude} ${latitude}`;
     }
 
     //Me surpreende muito que isso nao causa erro
