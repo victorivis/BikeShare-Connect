@@ -3,20 +3,14 @@
 Primeiramente, deve ser criado um arquivo .env seguindo o padrão abaixo
 
 ```
-POSTGRES_USER = postgres
-POSTGRES_PASSWORD = postgres
-POSTGRES_HOST = localhost
-POSTGRES_PORT = 5432
-POSTGRES_DB = bikeshare
-POSTGRES_DIALECT = postgres
+MONGO_URL=<URL_do_cluster>
 ```
 
-Em seguida basta rodar os comandos para instalação das dependências e criação do banco de dados, respectivamente.
+Em seguida basta rodar os comandos para instalação das dependências e inicializacao do servidor, respectivamente.
 
 ```
 npm install
-npm run criarDB
-npm run 
+npm run mongo
 ```
 
 <div align="center">
