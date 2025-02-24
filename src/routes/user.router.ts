@@ -11,6 +11,7 @@ import login from "../controller/login.js";
 
 import getUserByCpfCnpj from "../controller/getUserByCpfCnpj";
 import getUserByEmail from "../controller/getUserByEmail";
+import findUserByID from "../controller/findUserByID.js";
 
 import multer from "multer";
 const formData = multer();
@@ -24,6 +25,7 @@ routesUser.delete("/users/:id", deleteUserController);
 routesUser.put("/users/:id", formData.single("fotoPerfil"), updateUserController);
 routesUser.post("/login", login);
 
+routesUser.get("/users/:id", findUserByID);
 routesUser.get("/users/cpfCnpj/:cpfCnpj", getUserByCpfCnpj);
 routesUser.get("/users/email/:email", getUserByEmail);
 

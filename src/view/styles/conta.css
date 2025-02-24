@@ -370,6 +370,7 @@ body {
   height: 30vw;
   width: 30vw;
   border-radius: 100%;
+  object-fit: cover;
 }
 #cellphone #cadastro #cadastro-header #images-container #editarFoto {
   position: absolute;

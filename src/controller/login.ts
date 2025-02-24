@@ -12,7 +12,7 @@ interface UserRequest extends Request {
 
 async function login(req: UserRequest, res: Response): Promise<void> {
   const { email, senha } = req.body;
-  console.log("acessou metodo post /login");
+  
   try {
     const user = await User.findOne({ email: email });
     
@@ -20,8 +20,6 @@ async function login(req: UserRequest, res: Response): Promise<void> {
       res.status(404).json({ error: "Usuário não encontrado" });
       return;
     }
-    console.log(senha);
-    console.log(user.senha);
 
     // Comparar a senha fornecida com o hash salvo no banco
     const isPasswordValid = await bcrypt.compare(senha, user.senha);
@@ -31,12 +29,12 @@ async function login(req: UserRequest, res: Response): Promise<void> {
     }
 
     const token = jwt.sign(
-      { id: user.id, cpf_cnpj: user.cpf_cnpj, email: user.email, tipo: user.tipo }, // dados do payload
-      "seuSegredoSuperSecreto",
+      { id: user._id, tipo: user.tipo }, // dados do payload
+      process.env.JWT_SECRET,
       { expiresIn: "2h" }
     ); // gerando token com validade de 2 horas
 
-    res.status(200).json({ message: "Login bem-sucedido", user, token });
+    res.status(200).json({ message: "Login bem-sucedido", token });
     console.log("sucesso no login");
   } catch (error) {
     console.error("Erro no login:", error);

@@ -15,7 +15,7 @@ window.onload = async function () {
 
     // Realiza a requisição para buscar as informações do usuário
     try {
-        const response = await fetch(`http://localhost:3000/users/cpfCnpj/${payload.cpf_cnpj}`, {
+        const response = await fetch(`http://localhost:3000/users/${payload.id}`, {
             method: "GET",
         });
 
