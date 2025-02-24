@@ -14,7 +14,7 @@ export function autenticar(req, res, next) {
         const decoded = jwt.verify(token, "seuSegredoSuperSecreto");
         req.user = decoded;
         next();
-    } catch (error) {
+    } catch (error) {3
         return res.status(403).json({ error: "Token inválido ou expirado" });
     }
 }
@@ -24,7 +24,7 @@ export function verificarComum(req, res, next) {
     if (req.user.tipo !== "Comum") {
         return res.status(403).json({ error: "Acesso negado. Apenas usuários Comuns podem acessar esta rota." });
     }
-    next();
+    next();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 }
 
 // Middleware para verificar se o usuário é Administrador de Bicicletas

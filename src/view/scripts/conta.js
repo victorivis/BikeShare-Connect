@@ -109,14 +109,19 @@ function mostrarUsuario(usuario) {
             confirmButtonText: 'Enviar',
             cancelButtonText: 'Cancelar',
             preConfirm: (file) => {
-              return new Promise((resolve, reject) => {
-                if (!file) {
-                  Swal.showValidationMessage('Você precisa selecionar um arquivo')
-                  reject();
-                } else {
-                  resolve(file);
+                let envia=true;
+                const a = new Promise((resolve, reject) => {
+                    if (!file) {
+                        envia=false;
+                        Swal.showValidationMessage('Você precisa selecionar um arquivo')
+                    } else {
+                        resolve(file);
+                    }
+                });
+
+                if(envia){
+                    return a;
                 }
-              });
             }
           }).then(async (result) => {
             if (result.isConfirmed) {

@@ -1,13 +1,23 @@
-import mongoose from "../../database/mongoose.js";
+import mongoose from "../../database/mongoose";
+import { Document, Schema } from "mongoose";
 
-const {Schema} = mongoose;
+interface InterfaceUser extends Document {
+    tipo: 'Comum' | 'Administrador de Bicicletas' | 'Administrador Geral';
+    cpf_cnpj: string;
+    nome: string;
+    telefone?: string;
+    senha: string;
+    endereco?: string;
+    email: string;
+    fotoPerfil?: Buffer;
+}
 
-const usuarioEsquema = new Schema({
+const userSchema = new Schema<InterfaceUser>({
     tipo: {
         type: String,
         enum: ['Comum', 'Administrador de Bicicletas', 'Administrador Geral'],
         required: true
-    },    
+    },
     cpf_cnpj: {
         type: String,
         maxlength: 14,
@@ -41,10 +51,11 @@ const usuarioEsquema = new Schema({
     fotoPerfil: {
         type: Buffer,
     },
-}); 
+});
 
-usuarioEsquema.index({ cpf_cnpj: 1, email: 1 });
+userSchema.index({ cpf_cnpj: 1, email: 1 });
 
-const User = mongoose.model('Usuario', usuarioEsquema);
+const User = mongoose.model<InterfaceUser>('Usuario', userSchema);
 
 export default User;
+export { InterfaceUser };
