@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface InterfaceBicicleta extends Document {
+interface InterfaceBike extends Document {
   disponivel: boolean;
   descricao?: string;
   foto?: Buffer;
@@ -8,7 +8,7 @@ interface InterfaceBicicleta extends Document {
   ID_UsuarioDono: mongoose.Schema.Types.ObjectId;
 }
 
-const bicicletaEsquema = new Schema<InterfaceBicicleta>({
+const bicicletaEsquema = new Schema<InterfaceBike>({
     disponivel: { 
         type: Boolean, required: true 
     },
@@ -35,6 +35,6 @@ bicicletaEsquema.index(
     {default_language: "pt"}
 );
 
-const Bicicleta = mongoose.model<InterfaceBicicleta>("Bicicleta", bicicletaEsquema);
-export default Bicicleta;
-export { InterfaceBicicleta };
+const Bike = mongoose.model<InterfaceBike>("Bicicleta", bicicletaEsquema);
+export default Bike;
+export { InterfaceBike };

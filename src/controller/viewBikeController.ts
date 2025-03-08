@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import Bicicleta, { InterfaceBicicleta } from "../models/Bike";
+import Bicicleta, { InterfaceBike } from "../models/Bike";
 
 async function viewBikeController(req: Request, res: Response){
     try {
-        const bicicletas: InterfaceBicicleta[] = await Bicicleta.find({});
+        const bicicletas: InterfaceBike[] = await Bicicleta.find({});
         
         res.status(200).json(bicicletas);
     } catch (error) {

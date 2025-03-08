@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Bicicleta, { InterfaceBicicleta } from "../models/Bike";
+import Bicicleta, { InterfaceBike } from "../models/Bike";
 import mongoose, { Types } from "mongoose";
 
 // Tipando o parâmetro id como string
@@ -9,7 +9,7 @@ async function deleteBikeController(req: Request, res: Response): Promise<void> 
 
         // Converte o id para o tipo ObjectId do MongoDB
         const objectId: Types.ObjectId = new mongoose.Types.ObjectId(id);
-        const bicicletaDeletada: InterfaceBicicleta | null = await Bicicleta.findByIdAndDelete(objectId);
+        const bicicletaDeletada: InterfaceBike | null = await Bicicleta.findByIdAndDelete(objectId);
 
         if (!bicicletaDeletada) {
             res.status(404).json({ message: "Bicicleta não encontrada." });
