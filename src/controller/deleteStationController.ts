@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import Station from "../models/Station";
+import Station, {InterfaceStation, databaseEstacao} from "../models/Station";
 import mongoose from "mongoose";
+import client from "../../database/redis";
 
 async function deleteStationController(req: Request, res: Response): Promise<void> {
     try {
@@ -13,6 +14,13 @@ async function deleteStationController(req: Request, res: Response): Promise<voi
         if (!estacaoDeletada) {
             res.status(404).json({ message: "Estação não encontrada." });
             return;
+        }
+        
+        const cache: string | null = await client.get(databaseEstacao)
+        if(cache!=null){
+            const estacoesCache: InterfaceStation[] = JSON.parse(cache);
+            const updatedEstacoes = estacoesCache.filter(estacao => estacao._id !== id);
+            await client.set(databaseEstacao, JSON.stringify(updatedEstacoes));
         }
 
         res.status(200).json({ message: "Estação deletada com sucesso", estacao: estacaoDeletada });

@@ -55,7 +55,8 @@ const userSchema = new Schema<InterfaceUser>({
 
 userSchema.index({ cpf_cnpj: 1, email: 1 });
 
-const User = mongoose.model<InterfaceUser>('Usuario', userSchema);
+const databaseUsuario = 'Usuario';
+const User = mongoose.model<InterfaceUser>(databaseUsuario, userSchema);
 
 export default User;
-export { InterfaceUser };
+export { InterfaceUser, databaseUsuario };

@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import Station, { InterfaceStation } from "../models/Station";
+import Station, { databaseEstacao, InterfaceStation } from "../models/Station";
 import multer from "multer";
+import client from "../../database/redis";
+import { json } from "stream/consumers";
 
 const formData = multer();
 
@@ -36,6 +38,15 @@ async function updateStationController(req: Request, res: Response){
             res.status(404).json({ message: "Estação não encontrada." });
         }
         else{
+            const cache: string | null = await client.get(databaseEstacao);
+            if(cache != null){
+                const estacoesCache: InterfaceStation[] = JSON.parse(cache);
+                const indice = estacoesCache.findIndex(estacao => estacao._id==id);
+                estacoesCache[indice] = estacaoAtualizada;
+                
+                client.set(databaseEstacao, JSON.stringify(estacoesCache));
+            }
+
             res.status(200).json(estacaoAtualizada);
         }
     } catch (error) {

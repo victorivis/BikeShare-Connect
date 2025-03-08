@@ -42,6 +42,7 @@ stationSchema.index(
     { default_language: "pt" }
 );
 
-const Station = mongoose.model<InterfaceStation>('Station', stationSchema);
+const databaseEstacao = 'Station'
+const Station = mongoose.model<InterfaceStation>(databaseEstacao, stationSchema);
 export default Station;
-export { InterfaceStation };
+export { InterfaceStation, databaseEstacao };
