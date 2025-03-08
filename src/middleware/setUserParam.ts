@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 
-async function setBikeParam(req: Request, res: Response, next: NextFunction): Promise<void> {
+async function setUserParam(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         const id = req.params.id;
-        req.body.ID_Bicicleta = id;
+        req.body.ID_Usuario = id;
         next();
 
     } catch (error: any) {
@@ -11,4 +11,4 @@ async function setBikeParam(req: Request, res: Response, next: NextFunction): Pr
     }
 }
 
-export default setBikeParam;
+export default setUserParam;

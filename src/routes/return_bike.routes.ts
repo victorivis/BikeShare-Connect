@@ -1,14 +1,21 @@
-/*
 import { Router } from "express";
 
-import countBorrowBikeByBikeIDController from "../controller/countBorrowBikeByBikeIDController";
+import countReturnBikeByBikeIDController from "../controller/countReturnBikeByBikeIDController";
+import createReturnBikeController from "../controller/createReturnBikeController";
 
-const routesBorrowBike: Router = Router();
+//Middleware
+import isBikeIDValid from "../middleware/isBikeIDValid";
+import isUserIDValid from "../middleware/isUserIDValid";
+import isStationIDValid from "../middleware/isStationIDValid";
+import setBikeParam from "../middleware/setBikeParam";
+import countReturnBikeByUserIDController from "../controller/countReturnBikeByUserIDController";
+import validateReturnBike from "../middleware/validateReturnBike";
+import setUserParam from "../middleware/setUserParam";
 
-import multer from "multer";
-const formData = multer();
+const routesReturnBike: Router = Router();
 
-routesBorrowBike.get("/borrow_bike/count_bike/:id", countBorrowBikeByBikeIDController);
+routesReturnBike.get("/return_bike/count_bike/:id", setBikeParam, isBikeIDValid, countReturnBikeByBikeIDController);
+routesReturnBike.get("/return_bike/count_user/:id", setUserParam, isUserIDValid, countReturnBikeByUserIDController);
+routesReturnBike.post("/return_bike", isBikeIDValid, isStationIDValid, isUserIDValid, validateReturnBike, createReturnBikeController);
 
-export default routesBorrowBike;
-*/
+export default routesReturnBike;

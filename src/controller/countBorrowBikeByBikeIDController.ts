@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import CountBorrowBikeByBikeID from '../service/CountBorrowBikebyBikeID';
+import CountBorrowBikeByBikeID from '../service/CountBorrowBikeByBikeID';
 import Bike from '../models/Bike';
 import mongoose from 'mongoose';
 

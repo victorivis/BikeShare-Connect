@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import ReturnBike, { InterfaceReturnBike } from "../models/ReturnBike";
 import Bike, { InterfaceBike } from '../models/Bike';
+import SetBikeAvailable from '../service/SetBikeAvailable';
 
 async function createReturnBikeController(req: Request, res: Response){
     try {
@@ -11,13 +12,13 @@ async function createReturnBikeController(req: Request, res: Response){
         if(!bicicleta || bicicleta.disponivel==true){
             res.status(400).json({error: "Não é possível devolver essa bicicleta"});
         }
-        else{
-            const objectId = new mongoose.Types.ObjectId(ID_Bicicleta);
-            Bike.findByIdAndUpdate(objectId, {disponivel: false}, {new: true});
-            const borrowBike: InterfaceReturnBike = new ReturnBike(req.body);
+        else{            
+            const borrowedBike: InterfaceReturnBike = new ReturnBike(req.body);
+            await borrowedBike.save();
+            
+            await SetBikeAvailable(ID_Bicicleta);
 
-            await borrowBike.save();
-            res.status(201).json(borrowBike);
+            res.status(201).json(borrowedBike);
         }
     } catch (error) {
         res.status(400).json(error);
