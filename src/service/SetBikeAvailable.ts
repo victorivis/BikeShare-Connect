@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Bike, { InterfaceBike } from "../models/Bike";
 import CountBorrowBikeByBikeID from "./CountBorrowBikeByBikeID";
-import CountReturnBikeByBikeID from "./CountReturnBikebyBikeID";
+import CountReturnBikeByBikeID from "./CountReturnBikeByBikeID";
 
 async function SetBikeAvailable(ID_Bicicleta: string, ID_Estacao?: string) {
     const ObjectID = new mongoose.Types.ObjectId(ID_Bicicleta);

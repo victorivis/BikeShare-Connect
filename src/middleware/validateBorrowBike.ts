@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import CountBorrowBikeByBikeID from "../service/CountBorrowBikeByBikeID";
-import CountReturnBikeByBikeID from "../service/CountReturnBikebyBikeID";
-import CountBorrowBikeByUserID from "../service/CountBorrowBikebyUserID";
+import CountReturnBikeByBikeID from "../service/CountReturnBikeByBikeID";
+import CountBorrowBikeByUserID from "../service/CountBorrowBikeByUserID";
 import CountReturnBikeByUserID from "../service/CountReturnBikeByUserID";
 
 async function validateBorrowBike(req: Request, res: Response, next: NextFunction): Promise<void> {

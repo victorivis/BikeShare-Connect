@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import CountReturnBikeByBikeID from '../service/CountReturnBikebyBikeID';
+import CountReturnBikeByBikeID from '../service/CountReturnBikeByBikeID';
 
 async function countReturnBikeByBikeIDController(req: Request, res: Response){
     try {

@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import CountBorrowBikeByBikeID from "../service/CountBorrowBikeByBikeID";
-import CountReturnBikeByBikeID from "../service/CountReturnBikebyBikeID";
-import CountBorrowBikeByUserID from "../service/CountBorrowBikebyUserID";
+import CountReturnBikeByBikeID from "../service/CountReturnBikeByBikeID";
+import CountBorrowBikeByUserID from "../service/CountBorrowBikeByUserID";
 import CountReturnBikeByUserID from "../service/CountReturnBikeByUserID";
-import GetLastBorrowBikeByBikeID from "../service/getLastBorrowBikeByBikeID";
+import GetLastBorrowBikeByBikeID from "../service/GetLastBorrowBikeByBikeID";
 import BorrowBike, { InterfaceBorrowBike } from "../models/BorrowBike";
 import { error } from "console";
 
