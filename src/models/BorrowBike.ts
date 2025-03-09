@@ -1,4 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import { databaseBicicleta } from './Bike';
+import { databaseEstacao } from './Station';
+import { databaseUsuario } from './User';
 
 interface InterfaceBorrowBike extends Document {
     ID_Usuario: mongoose.Types.ObjectId;
@@ -12,21 +15,21 @@ const BorrowBikeSchema = new Schema<InterfaceBorrowBike>(
     {
         ID_Usuario: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: databaseUsuario,
             required: true,
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE',
         },
         ID_Estacao: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Station',
+            ref: databaseEstacao,
             required: true,
             onUpdate: 'CASCADE',
             onDelete: 'SET NULL',
         },
         ID_Bicicleta: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Bike',
+            ref: databaseBicicleta,
             required: true,
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE',

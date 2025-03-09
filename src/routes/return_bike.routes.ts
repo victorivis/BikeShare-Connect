@@ -16,6 +16,6 @@ const routesReturnBike: Router = Router();
 
 routesReturnBike.get("/return_bike/count_bike/:id", setBikeParam, isBikeIDValid, countReturnBikeByBikeIDController);
 routesReturnBike.get("/return_bike/count_user/:id", setUserParam, isUserIDValid, countReturnBikeByUserIDController);
-routesReturnBike.post("/return_bike", isBikeIDValid, isStationIDValid, isUserIDValid, validateReturnBike, createReturnBikeController);
+routesReturnBike.post("/return_bike", isBikeIDValid, isStationIDValid, validateReturnBike, createReturnBikeController);
 
 export default routesReturnBike;

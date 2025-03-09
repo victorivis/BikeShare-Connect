@@ -6,7 +6,7 @@ import SetBikeAvailable from '../service/SetBikeAvailable';
 
 async function createReturnBikeController(req: Request, res: Response){
     try {
-        const { ID_Bicicleta } = req.body;
+        const { ID_Bicicleta, ID_Estacao } = req.body;
 
         const bicicleta: InterfaceBike | null = await Bike.findById(ID_Bicicleta);
         if(!bicicleta || bicicleta.disponivel==true){
@@ -16,7 +16,7 @@ async function createReturnBikeController(req: Request, res: Response){
             const borrowedBike: InterfaceReturnBike = new ReturnBike(req.body);
             await borrowedBike.save();
             
-            await SetBikeAvailable(ID_Bicicleta);
+            await SetBikeAvailable(ID_Bicicleta, ID_Estacao);
 
             res.status(201).json(borrowedBike);
         }

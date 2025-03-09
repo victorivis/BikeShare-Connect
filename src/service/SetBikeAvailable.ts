@@ -3,7 +3,7 @@ import Bike, { InterfaceBike } from "../models/Bike";
 import CountBorrowBikeByBikeID from "./CountBorrowBikeByBikeID";
 import CountReturnBikeByBikeID from "./CountReturnBikebyBikeID";
 
-async function SetBikeAvailable(ID_Bicicleta: string) {
+async function SetBikeAvailable(ID_Bicicleta: string, ID_Estacao?: string) {
     const ObjectID = new mongoose.Types.ObjectId(ID_Bicicleta);
 
     const retiradas: number = await CountBorrowBikeByBikeID(ID_Bicicleta);
@@ -14,7 +14,12 @@ async function SetBikeAvailable(ID_Bicicleta: string) {
         return -1;
     }
 
-    const newBike: InterfaceBike | null = await Bike.findByIdAndUpdate(ObjectID, {disponivel: true}, {new: true});
+    if(!ID_Estacao){
+        const newBike: InterfaceBike | null = await Bike.findByIdAndUpdate(ObjectID, {disponivel: true}, {new: true});
+        return newBike;
+    }
+    
+    const newBike: InterfaceBike | null = await Bike.findByIdAndUpdate(ObjectID, {disponivel: true, ID_EstacaoAtual: ID_Estacao}, {new: true});
     return newBike;
 }
 

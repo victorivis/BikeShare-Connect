@@ -16,6 +16,6 @@ const routesBorrowBike: Router = Router();
 
 routesBorrowBike.get("/borrow_bike/count_bike/:id", setBikeParam, isBikeIDValid, countBorrowBikeByBikeIDController);
 routesBorrowBike.get("/borrow_bike/count_user/:id", setUserParam, isUserIDValid, countBorrowBikeByUserIDController);
-routesBorrowBike.post("/borrow_bike", isBikeIDValid, isStationIDValid, isUserIDValid, validateBorrowBike, createBorrowBikeController);
+routesBorrowBike.post("/borrow_bike", isBikeIDValid, isUserIDValid, validateBorrowBike, createBorrowBikeController);
 
 export default routesBorrowBike;

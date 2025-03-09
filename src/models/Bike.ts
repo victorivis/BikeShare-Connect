@@ -35,6 +35,7 @@ bicicletaEsquema.index(
     {default_language: "pt"}
 );
 
-const Bike = mongoose.model<InterfaceBike>("Bicicleta", bicicletaEsquema);
+const databaseBicicleta = "Bicicleta";
+const Bike = mongoose.model<InterfaceBike>(databaseBicicleta, bicicletaEsquema);
 export default Bike;
-export { InterfaceBike };
+export { InterfaceBike, databaseBicicleta };
