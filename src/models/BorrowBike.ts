@@ -17,22 +17,22 @@ const BorrowBikeSchema = new Schema<InterfaceBorrowBike>(
             type: mongoose.Schema.Types.ObjectId,
             ref: databaseUsuario,
             required: true,
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
+            onUpdate: 'RESTRICT',
+            onDelete: 'RESTRICT',
         },
         ID_Estacao: {
             type: mongoose.Schema.Types.ObjectId,
             ref: databaseEstacao,
             required: true,
-            onUpdate: 'CASCADE',
-            onDelete: 'SET NULL',
+            onUpdate: 'RESTRICT',
+            onDelete: 'RESTRICT',
         },
         ID_Bicicleta: {
             type: mongoose.Schema.Types.ObjectId,
             ref: databaseBicicleta,
             required: true,
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
+            onUpdate: 'RESTRICT',
+            onDelete: 'RESTRICT',
         }
     },
     {

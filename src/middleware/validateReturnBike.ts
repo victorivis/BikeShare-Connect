@@ -22,12 +22,18 @@ async function validateReturnBike(req: Request, res: Response, next: NextFunctio
         if(!borrowBike){
             throw new Error;
         }
+
+        console.log(borrowBike);
         
         const ID_Usuario = borrowBike.ID_Usuario.toString();
         req.body.ID_Usuario = ID_Usuario;
         
         const retiradasUsuario: number = await CountBorrowBikeByUserID(ID_Usuario);
         const devolucoesUsuario: number = await CountReturnBikeByUserID(ID_Usuario);
+
+        console.log(ID_Usuario);
+        console.log(retiradasUsuario);
+        console.log(devolucoesUsuario);
 
         if(retiradasUsuario-devolucoesUsuario!=1){
             res.status(403).json({error: "Esse usuario não pode devolver antes de retirar uma bicicleta"});

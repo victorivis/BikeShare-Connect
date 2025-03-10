@@ -2,10 +2,16 @@ import { Request, Response } from "express";
 import Station, {InterfaceStation, databaseEstacao} from "../models/Station";
 import mongoose from "mongoose";
 import client from "../../database/redis";
+import CountBorrowBikeByStationID from "../service/CountBorrowBikeByStationID";
 
 async function deleteStationController(req: Request, res: Response): Promise<void> {
     try {
         const { id } = req.params;
+
+        if(await CountBorrowBikeByStationID(id)!=0){
+            res.status(501).json({error: "Essa estação tem um historico de movimentação. Se realmente quiser deletá-la apague primeiro esse histórico."});
+            return;
+        }
 
         // Converte o id para o tipo reconhecido no banco de dados
         const objectId = new mongoose.Types.ObjectId(id);

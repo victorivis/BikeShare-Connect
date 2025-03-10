@@ -1,4 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import { databaseEstacao } from './Station';
+import { databaseUsuario } from './User';
+import { databaseBicicleta } from './Bike';
 
 interface InterfaceReturnBike extends Document {
     ID_Usuario: mongoose.Types.ObjectId;
@@ -12,24 +15,24 @@ const ReturnBikeSchema = new Schema<InterfaceReturnBike>(
     {
         ID_Usuario: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: databaseUsuario,
             required: true,
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
+            onUpdate: 'RESTRICT',
+            onDelete: 'RESTRICT',
         },
         ID_Estacao: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Station',
+            ref: databaseEstacao,
             required: true,
-            onUpdate: 'CASCADE',
-            onDelete: 'SET NULL',
+            onUpdate: 'RESTRICT',
+            onDelete: 'RESTRICT',
         },
         ID_Bicicleta: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Bike',
+            ref: databaseBicicleta,
             required: true,
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
+            onUpdate: 'RESTRICT',
+            onDelete: 'RESTRICT',
         }
     },
     {
@@ -38,7 +41,7 @@ const ReturnBikeSchema = new Schema<InterfaceReturnBike>(
 );
 
 const databaseDevolverBicicleta = 'ReturnBike'
-const BorrowBike = mongoose.model<InterfaceReturnBike>(databaseDevolverBicicleta, ReturnBikeSchema);
+const ReturnBike = mongoose.model<InterfaceReturnBike>(databaseDevolverBicicleta, ReturnBikeSchema);
 
-export default BorrowBike;
+export default ReturnBike;
 export { InterfaceReturnBike };
