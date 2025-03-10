@@ -1,13 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 
-async function setBikeBody(req: Request, res: Response, next: NextFunction): Promise<void> {
+async function validateUserPhone(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         const { telefone } = req.body;
-        
+
         const telefoneComposto: RegExp = /^(?:\(\d{2}\)\s?|\d{2}\s)\d{5}-\d{4}$/;
         const telefoneSimples: RegExp = /^\d{9}$/;
 
-        if(telefoneComposto.test(telefone) || telefoneSimples.test(telefone)){
+        if(telefone==undefined){
+            next();
+        }
+        else if(telefoneComposto.test(telefone) || telefoneSimples.test(telefone)){
             req.body.telefone = telefone.replace(/\D/g, ''); //Retira tudo que nao eh digito
             next();
         }
@@ -19,4 +22,4 @@ async function setBikeBody(req: Request, res: Response, next: NextFunction): Pro
     }
 }
 
-export default setBikeBody;
+export default validateUserPhone;

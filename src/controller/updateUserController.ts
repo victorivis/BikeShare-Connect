@@ -3,6 +3,7 @@ import User, { redisUser } from "../models/User";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import client from '../../database/redis';
+import { error } from 'console';
 
 interface FileRequest extends Request {
   file?: Express.Multer.File;
@@ -19,6 +20,11 @@ async function updateUserController(req: FileRequest, res: Response): Promise<vo
     }
 
     const { id } = req.params;
+
+    if(req.body.cpf_cnpj != undefined){
+      res.status(400).json({error: "Não é possível alterar o CPF/CNPJ"});
+      return;
+    }
 
     if(req.body.senha){
       // Criptografa senha. 4 eh um numero legal
