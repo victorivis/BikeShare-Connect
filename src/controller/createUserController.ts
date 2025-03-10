@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import User, { InterfaceUser } from "../models/User";
+import User, { InterfaceUser, redisUser} from "../models/User";
 import bcrypt from "bcrypt";
+import client from '../../database/redis';
 
 interface FileRequest extends Request {
   file?: Express.Multer.File;
@@ -33,8 +34,13 @@ async function createUserController(req: FileRequest, res: Response): Promise<vo
     const usuario: InterfaceUser = new User(req.body);
     await usuario.save();
 
+    const id = usuario._id;
+    console.log("id:", usuario._id);
+    
+    client.set(redisUser+id, JSON.stringify(usuario));
     res.status(201).json(usuario);
-  } catch (error) {
+
+  } catch (error: any) {
     console.error(error);
     res.status(400).json({ error: error.message });
   }

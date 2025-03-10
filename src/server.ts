@@ -3,6 +3,7 @@ import multer from 'multer';
 import cors from 'cors';
 
 import routes from './routes/all.routes';
+import loadAllUserCache from './service/loadAllUserCache';
 
 const formData = multer();
 const server = express();
@@ -19,3 +20,6 @@ const port = 3000;
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+loadAllUserCache();
+//let cacheUser = client.get(redisUser+Id)
