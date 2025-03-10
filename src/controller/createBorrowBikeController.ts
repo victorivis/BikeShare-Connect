@@ -20,7 +20,7 @@ async function createBorrowBikeController(req: Request, res: Response){
         else{
             const ID_Estacao = bicicleta.ID_EstacaoAtual;
 
-            await SetBikeUnavailable(borrowBikeData.ID_Bicicleta);
+            await SetBikeUnavailable(borrowBikeData.ID_Bicicleta, true);
             const borrowBike: InterfaceBorrowBike = new BorrowBike({
                 ID_Usuario: borrowBikeData.ID_Usuario,
                 ID_Bicicleta: borrowBikeData.ID_Bicicleta,

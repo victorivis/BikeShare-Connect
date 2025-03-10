@@ -128,8 +128,10 @@ receberLocalizacaoAtual();
     //Comunicacao com o banco de dados
     //Infelizmente CORS e um monte de outras politicas obrigam a fazer tudo num unico script
 
+const token = localStorage.getItem("token");
 const rotaEstacoes = "http://localhost:3000/station";
 const ehAdmin = window.ehAdmin;
+console.log("token", token);
 
 async function deletarEstacao(id, palavraConfirmar){
     const confimado = await confirmarOperacao(palavraConfirmar);
@@ -140,6 +142,7 @@ async function deletarEstacao(id, palavraConfirmar){
     if(confimado == true){
         try{
             const resposta = await fetch(`${rotaEstacoes}/${id}`, {
+                headers: {"Authorization": "Bearer " + token},
                 method: "DELETE",
             });
 
@@ -228,6 +231,7 @@ receberMarcadores();
 
 async function criarEstacao(formData, id){
     await fetch(`${rotaEstacoes}`, {
+        headers: {"Authorization": "Bearer " + token},
         method: 'POST',
         body: formData
     })
@@ -249,6 +253,7 @@ async function editarEstacao(formData, id) {
     }
     
     await fetch(`${rotaEstacoes}/${id}`, {
+        headers: {"Authorization": "Bearer " + token},
         method: 'PUT',
         body: formData
     })

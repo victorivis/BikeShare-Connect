@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 
-function validateTipo(req: Request, res: Response, next: NextFunction) {
+function isOwnUserOrAdmin(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization;
+    const ID_Usuario = req.params.id;
 
     if (!token) {
          res.status(401).json({ error: "Token ausente" });
@@ -10,10 +11,9 @@ function validateTipo(req: Request, res: Response, next: NextFunction) {
 
     try {
         const payload = JSON.parse(atob(token.split(".")[1])); // Decodifica o payload do token
-        console.log("Tipo de usuário:", payload.tipo);
 
-        if (payload.tipo === "Comum") {
-             res.status(403).json({ error: "Usuários Comuns não têm acesso a esta funcionalidade" });
+        if (payload.id!=ID_Usuario && payload.tipo === "Comum") {
+             res.status(403).json({ error: "Você não têm acesso a esta funcionalidade para este id" });
              return
         }
 
@@ -25,4 +25,4 @@ function validateTipo(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export default validateTipo;
+export default isOwnUserOrAdmin;

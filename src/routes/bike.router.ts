@@ -7,10 +7,11 @@ import viewBikeControllerSimplified from "../controller/viewBikeControllerSimpli
 import setBikeUnavailableController from "../controller/setBikeUnavailableController";
 import setBikeAvailableController from "../controller/setBikeAvailableController";
 
-//Middlewares
+//middlewares
 import setBikeBody from "../middleware/setBikeBody";
 import isStationIDValid from "../middleware/isStationIDValid";
 import isUserIDValid from "../middleware/isUserIDValid";
+import isAdmin from "../middleware/isAdmin";
 
 const routesBike: Router = Router();
 
@@ -20,11 +21,11 @@ const formData = multer();
 routesBike.get("/bike/simplified", viewBikeControllerSimplified);
 
 routesBike.get("/bike", viewBikeController);
-routesBike.post("/bike", formData.single("foto"), setBikeBody, isUserIDValid, isStationIDValid, createBikeController);
-routesBike.delete("/bike/:id", deleteBikeController);
-routesBike.put("/bike/:id", formData.single("foto"), updateBikeController);
+routesBike.post("/bike", isAdmin, formData.single("foto"), setBikeBody, isUserIDValid, isStationIDValid, createBikeController);
+routesBike.delete("/bike/:id", isAdmin, deleteBikeController);
+routesBike.put("/bike/:id", isAdmin, formData.single("foto"), updateBikeController);
 
-routesBike.patch("/bike/:id/unavailable", setBikeUnavailableController);
-routesBike.patch("/bike/:id/available", setBikeAvailableController);
+routesBike.patch("/bike/:id/unavailable", isAdmin, setBikeUnavailableController);
+routesBike.patch("/bike/:id/available", isAdmin, setBikeAvailableController);
 
 export default routesBike;

@@ -9,28 +9,29 @@ import updateUserController from "../controller/updateUserController";
 import viewUserControllerSimplified from "../controller/viewUserControllerSimplified";
 import login from "../controller/login.js";
 
-
 import getUserByCpfCnpj from "../controller/getUserByCpfCnpj";
 import getUserByEmail from "../controller/getUserByEmail";
-import findUserByID from "../controller/findUserByID.js";
+import findUserByID from "../controller/findUserByIDController.js";
+
+//middlewares
+import validateCpfCnpj from "../middleware/validateCpfCnpj";
+import isAdmin from "../middleware/isAdmin";
+import isOwnUserOrAdmin from "../middleware/isOwnUserOrAdmin";
 
 import multer from "multer";
 const formData = multer();
 
-//middleware
-import validateCpfCnpj from "../middleware/validateCpfCnpj";
-
 //Para visualizacao no postman sem alguns mb de inteiros na foto de perfil
-routesUser.get("/users/simplified", viewUserControllerSimplified);
+routesUser.get("/users/simplified", isAdmin, viewUserControllerSimplified);
 
-routesUser.get("/users", viewUserController);
+routesUser.get("/users", isAdmin, viewUserController);
 routesUser.post("/users", formData.single("fotoPerfil"),validateCpfCnpj, createUserController);
-routesUser.delete("/users/:id", deleteUserController);
-routesUser.put("/users/:id", formData.single("fotoPerfil"), updateUserController);
+routesUser.delete("/users/:id", isAdmin, deleteUserController);
+routesUser.put("/users/:id", isOwnUserOrAdmin, formData.single("fotoPerfil"), updateUserController);
 routesUser.post("/login", login);
 
 routesUser.get("/users/:id", findUserByID);
-routesUser.get("/users/cpfCnpj/:cpfCnpj", getUserByCpfCnpj);
-routesUser.get("/users/email/:email", getUserByEmail);
+routesUser.get("/users/cpfCnpj/:cpfCnpj", isAdmin, getUserByCpfCnpj);
+routesUser.get("/users/email/:email", isAdmin, getUserByEmail);
 
 export default routesUser;

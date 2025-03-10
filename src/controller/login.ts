@@ -28,14 +28,20 @@ async function login(req: UserRequest, res: Response): Promise<void> {
       return;
     }
 
-    const token = jwt.sign(
-      { id: user._id, tipo: user.tipo }, // dados do payload
-      process.env.JWT_SECRET,
-      { expiresIn: "2h" }
-    ); // gerando token com validade de 2 horas
+    const chave: string | undefined = process.env.JWT_SECRET;
 
-    res.status(200).json({ message: "Login bem-sucedido", token });
-    console.log("sucesso no login");
+    if(!chave){
+      res.status(500).json({error: "Erro interno. Chave do token não está registrada no servidor."});
+    }
+    else{
+      const token = jwt.sign(
+        { id: user._id, tipo: user.tipo }, // dados do payload
+        chave,
+        { expiresIn: "2h" }
+      ); // gerando token com validade de 2 horas
+      res.status(200).json({ message: "Login bem-sucedido", token });
+      console.log("sucesso no login");
+    }    
   } catch (error) {
     console.error("Erro no login:", error);
     res.status(500).json({ error: "Erro ao processar login" });

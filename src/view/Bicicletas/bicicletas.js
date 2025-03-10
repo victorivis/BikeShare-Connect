@@ -1,3 +1,5 @@
+const token = localStorage.getItem("token");
+
 async function confirmarOperacao(codigoCorreto, palavraValidar) {
     const codigoParaMostrar = codigoCorreto;
     
@@ -29,6 +31,7 @@ async function deletarBicicleta(id){
 
     try{
         const resposta = await fetch(`http://localhost:3000/bike/${id}`, {
+            headers: {"Authorization": "Bearer " + token},
             method: "DELETE",
         });
 
@@ -57,6 +60,7 @@ function criadorDeletar(id, validador) {
 async function receberUsuarios() {
     try{
         const resposta = await fetch("http://localhost:3000/users", {
+            headers: {"Authorization": "Bearer " + token},
             method: "GET",
         });
         const usuarios = await resposta.json();
@@ -80,6 +84,7 @@ async function receberUsuarios() {
 async function receberEstacoes() {
     try{
         const resposta = await fetch("http://localhost:3000/station", {
+            headers: {"Authorization": "Bearer " + token},
             method: "GET",
         });
         const estacoes = await resposta.json();
@@ -105,6 +110,7 @@ async function receberBicicletas() {
     
     try{
         const resposta = await fetch("http://localhost:3000/bike", {
+            headers: {"Authorization": "Bearer " + token},
             method: "GET",
         });
         const dados = await resposta.json();
@@ -148,6 +154,7 @@ async function receberBicicletas() {
                 let station;
                 try{
                     const stationResponse = await fetch(`http://localhost:3000/station/${dados[i].ID_EstacaoAtual}`, {
+                        headers: {"Authorization": "Bearer " + token},
                         method: "GET",
                     });
                     station = await stationResponse.json();
@@ -227,6 +234,7 @@ async function cadastrarBicicleta() {
 
     try{
         await fetch('http://localhost:3000/bike', {
+            headers: {"Authorization": "Bearer " + token},
             method: 'POST',
             body: formulario
         })
