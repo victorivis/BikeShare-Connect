@@ -9,6 +9,7 @@ import updateUserController from "../controller/updateUserController";
 import viewUserControllerSimplified from "../controller/viewUserControllerSimplified";
 import login from "../controller/login.js";
 
+
 import getUserByCpfCnpj from "../controller/getUserByCpfCnpj";
 import getUserByEmail from "../controller/getUserByEmail";
 import findUserByID from "../controller/findUserByID.js";
@@ -16,11 +17,14 @@ import findUserByID from "../controller/findUserByID.js";
 import multer from "multer";
 const formData = multer();
 
+//middleware
+import validateCpfCnpj from "../middleware/validateCpfCnpj";
+
 //Para visualizacao no postman sem alguns mb de inteiros na foto de perfil
 routesUser.get("/users/simplified", viewUserControllerSimplified);
 
 routesUser.get("/users", viewUserController);
-routesUser.post("/users", formData.single("fotoPerfil"), createUserController);
+routesUser.post("/users", formData.single("fotoPerfil"),validateCpfCnpj, createUserController);
 routesUser.delete("/users/:id", deleteUserController);
 routesUser.put("/users/:id", formData.single("fotoPerfil"), updateUserController);
 routesUser.post("/login", login);
