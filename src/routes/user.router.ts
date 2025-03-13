@@ -29,7 +29,7 @@ routesUser.get("/users/simplified", isAdmin, viewUserControllerSimplified);
 routesUser.get("/users", isAdmin, viewUserController);
 routesUser.post("/users", formData.single("fotoPerfil"), validateCpfCnpj, validateUserPhone, validateUserEmail, createUserController);
 routesUser.delete("/users/:id", isAdmin, deleteUserController);
-routesUser.put("/users/:id", formData.single("fotoPerfil"), isOwnUserOrAdmin, validateUserPhone, validateUserEmail, updateUserController);
+routesUser.patch("/users/:id", formData.single("fotoPerfil"), isOwnUserOrAdmin, validateUserPhone, validateUserEmail, updateUserController);
 routesUser.post("/login", login);
 
 routesUser.get("/users/:id", findUserByID);

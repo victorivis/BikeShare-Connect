@@ -19,7 +19,7 @@ routesStation.get("/station/simplified", viewStationControllerSimplified);
 routesStation.get("/station", viewStationController);
 routesStation.post("/station", isAdmin, formData.single("foto"), createStationController);
 routesStation.delete("/station/:id", isAdmin, deleteStationController);
-routesStation.put("/station/:id", isAdmin, formData.single("foto"), updateStationController);
+routesStation.patch("/station/:id", isAdmin, formData.single("foto"), updateStationController);
 routesStation.get("/station/:id", findStationByIDController);
 
 export default routesStation;
