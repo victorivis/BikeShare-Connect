@@ -23,7 +23,7 @@ routesBike.get("/bike/simplified", viewBikeControllerSimplified);
 routesBike.get("/bike", viewBikeController);
 routesBike.post("/bike", isAdmin, formData.single("foto"), setBikeBody, isUserIDValid, isStationIDValid, createBikeController);
 routesBike.delete("/bike/:id", isAdmin, deleteBikeController);
-routesBike.put("/bike/:id", isAdmin, formData.single("foto"), updateBikeController);
+routesBike.patch("/bike/:id", isAdmin, formData.single("foto"), updateBikeController);
 
 routesBike.patch("/bike/:id/unavailable", isAdmin, setBikeUnavailableController);
 routesBike.patch("/bike/:id/available", isAdmin, setBikeAvailableController);

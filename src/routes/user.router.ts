@@ -17,17 +17,18 @@ import findUserByID from "../controller/findUserByIDController.js";
 import validateCpfCnpj from "../middleware/validateCpfCnpj";
 import isAdmin from "../middleware/isAdmin";
 import isOwnUserOrAdmin from "../middleware/isOwnUserOrAdmin";
-
-import multer from "multer";
 import validateUserPhone from "../middleware/validateUserPhone";
 import validateUserEmail from "../middleware/validateUserEmail";
+import isCreatingAdmin from "../middleware/isCreatingAdmin";
+
+import multer from "multer";
 const formData = multer();
 
 //Para visualizacao no postman sem alguns mb de inteiros na foto de perfil
 routesUser.get("/users/simplified", isAdmin, viewUserControllerSimplified);
 
 routesUser.get("/users", isAdmin, viewUserController);
-routesUser.post("/users", formData.single("fotoPerfil"), validateCpfCnpj, validateUserPhone, validateUserEmail, createUserController);
+routesUser.post("/users", formData.single("fotoPerfil"), isCreatingAdmin, validateCpfCnpj, validateUserPhone, validateUserEmail, createUserController);
 routesUser.delete("/users/:id", isAdmin, deleteUserController);
 routesUser.patch("/users/:id", formData.single("fotoPerfil"), isOwnUserOrAdmin, validateUserPhone, validateUserEmail, updateUserController);
 routesUser.post("/login", login);

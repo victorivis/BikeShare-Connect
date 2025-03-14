@@ -18,7 +18,7 @@ async function updateStationController(req: Request, res: Response){
         }
 
         // Se a localização não foi modificada, não processa
-        if (!(req.body.localizacao === false)) {
+        if (!(req.body.localizacao === false) && req.body.localizacao!=undefined) {
             const coordenadas: number[] = req.body.localizacao.split(" ").map((coord: string) => parseFloat(coord));
             const localCorreto = {
                 type: "Point",

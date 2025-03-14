@@ -5,7 +5,7 @@ async function validateUserPhone(req: Request, res: Response, next: NextFunction
         const { telefone } = req.body;
 
         const telefoneComposto: RegExp = /^(?:\(\d{2}\)\s?|\d{2}\s)\d{5}-\d{4}$/;
-        const telefoneSimples: RegExp = /^\d{9}$/;
+        const telefoneSimples: RegExp = /^\d{11}$/;
 
         if(telefone==undefined){
             next();
@@ -15,7 +15,7 @@ async function validateUserPhone(req: Request, res: Response, next: NextFunction
             next();
         }
         else{
-            res.status(400).json({error: "Telefone não possui uma formatação válida. Devem ser 9 dígitos ao todo."});
+            res.status(400).json({error: "Telefone não possui uma formatação válida. Devem ser 11 dígitos ao todo."});
         }
     } catch (error: any) {
         res.status(500).json({ error: error.message });

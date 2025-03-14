@@ -37,10 +37,14 @@ async function updateUserController(req: FileRequest, res: Response): Promise<vo
     const objectId = new mongoose.Types.ObjectId(id);
     const usuarioAtualizado = await User.findByIdAndUpdate(objectId, req.body, { new: true });
 
+    if(!usuarioAtualizado){
+      res.status(400).json({error: "Usuario nao existe"});
+      return;
+    }
     client.set(redisUser+id, JSON.stringify(usuarioAtualizado));
 
     res.status(200).json(usuarioAtualizado);
-  } catch (error) {
+  } catch (error:any) {
     res.status(400).json(error);
     console.log(error);
   }

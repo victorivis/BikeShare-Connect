@@ -10,7 +10,7 @@ async function validateUserEmail(req: Request, res: Response, next: NextFunction
             next();
         }
         else{
-            res.status(400).json({error: "Telefone não possui uma formatação válida. Devem ser 9 dígitos ao todo."});
+            res.status(400).json({error: "Email de formatação inválida"});
         }
     } catch (error: any) {
         res.status(500).json({ error: error.message });
