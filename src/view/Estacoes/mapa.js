@@ -254,7 +254,7 @@ async function editarEstacao(formData, id) {
     
     await fetch(`${rotaEstacoes}/${id}`, {
         headers: {"Authorization": "Bearer " + token},
-        method: 'PUT',
+        method: 'PATCH',
         body: formData
     })
     .then(response => {

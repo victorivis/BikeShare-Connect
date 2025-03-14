@@ -169,7 +169,7 @@ function mostrarUsuario(usuario) {
 
         try {
             const response = await fetch(`http://localhost:3000/users/${id}`, {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },
